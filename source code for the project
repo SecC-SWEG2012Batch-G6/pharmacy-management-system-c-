@@ -1,0 +1,167 @@
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
+using namespace std;
+int id=10;
+void Menu(){
+	cout<<"+ + + + + + + + + + + + + +"<<endl;
+	cout<<"+ What do you want to do? +"<<endl;
+	cout<<"+ 1. Update drug store    +"<<endl;
+	cout<<"+ 2. View drug store      +"<<endl;
+	cout<<"+ 3. Exit                 +"<<endl;
+	cout<<"+ + + + + + + + + + + + + +"<<endl;
+}
+		
+	
+struct Date{
+    int dd,mm,yy;
+};
+
+struct medicine_types{
+	int ID,quantity;
+	float price;
+	string name;
+	Date Manufacture_date,Expiry_date;
+	string type;
+	
+	
+};
+
+void setZero(medicine_types Zero[],int n);
+void Store_Drug (medicine_types med[]);
+void View_store(medicine_types stored[]);
+
+int main(){ int choice;
+    cout<<"---------------------------------------"<<endl;
+    cout<<"Welcome to Our medical store Program"<<endl;
+    cout<<"---------------------------------------"<<endl;
+    medicine_types store[100]={{1,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{2,10,12,"paracetamol",10,12,2200,11,11,2209,"antibiotic"},
+	{3,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{4,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},
+	{5,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{6,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},
+	{7,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{8,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},
+	{9,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{10,10,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"}};
+   do{system("pause");
+     system("cls");
+   	Menu();
+   	cout<<"Enter your choice here: "; cin>>choice;
+   	switch(choice){
+   		case 1: Store_Drug(store);
+    			system("pause");
+    			View_store(store);
+    			break;
+    	case 2: View_store(store);
+    			system("pause");
+    			break;
+    	default: cout<<"You choose to to exit the program"<<endl;
+		        system("pause");
+				exit(0);
+	   }
+   	
+   }while(true);
+	
+    
+    
+    
+	return 0;
+}
+
+void setZero(medicine_types Zero[],int n){
+		for(int i=0;i<n;i){
+		
+		Zero[i].ID={0};
+		Zero[i].quantity={0};
+		Zero[i].price={0};
+		Zero[i].name={""};
+		Zero[i].Manufacture_date.dd={0};
+		Zero[i].Manufacture_date.mm={0};
+		Zero[i].Manufacture_date.yy={0};
+	}
+}
+
+void Store_Drug (medicine_types med[]){
+	int k,num_of_med;
+	cout<<"Do you want to continue with the default stack or you want to enter from scratch?1/0"<<endl;
+	cin>>k;
+	cout<<"How many number of medicine you are going to store"<<endl;
+	cin>>num_of_med;
+	switch(k){
+	
+	case 1:	
+	{
+		cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
+		for(int i=0;i<num_of_med;++i){
+		     med[id].ID=id+1;
+			cout<<"Drug ID: "<<med[id].ID<<endl;
+			cout<<"Enter Drug Name: "; cin>>med[id].name;
+			cout<<"Enter the quantity of this medicine: "; cin>>med[id].quantity;
+			cout<<"Enter Price: ";  cin>>med[id].price;
+			cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med[id].type;
+			cout<<"Enter Manufactured Date: \n";
+			cout<<"      Day: "; cin>>med[id].Manufacture_date.dd;
+			cout<<"      Month: "; cin>>med[id].Manufacture_date.mm;
+			cout<<"      Year: "; cin>>med[id].Manufacture_date.yy;
+			cout<<"Enter Expiry Date: \n";
+			cout<<"      Day: "; cin>>med[id].Expiry_date.dd;
+			cout<<"      Month: "; cin>>med[id].Expiry_date.mm;
+			cout<<"      Year: "; cin>>med[id].Expiry_date.yy;
+			id++; cout<<"\n";
+		}
+	} break;
+	
+	default:
+	
+	   {
+	   
+	   	for(int k=0;k<10;++k){
+			med[k].ID={0};
+			med[k].name={"0"};
+			med[k].quantity={0};
+			med[k].price={0};
+		}
+    // setZero(med[],10);
+	cout<<"\n Enter the necessary informations for the drug you want to store!!!"<<endl;
+	
+		for(int i=0;i<num_of_med;++i){
+		    med[i].ID=i+1;
+			cout<<"Drug ID: "<<med[i].ID<<endl;
+			cout<<"Enter Drug Name: "; cin>>med[i].name;
+			cout<<"Enter the quantity of this medicine: "; cin>>med[i].quantity;
+			cout<<"Enter Price: ";  cin>>med[i].price;
+			cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med[i].type;
+			cout<<"Enter Manufactured Date: \n";
+			cout<<"      Day: "; cin>>med[i].Manufacture_date.dd;
+			cout<<"      Month: "; cin>>med[i].Manufacture_date.mm;
+			cout<<"      Year: "; cin>>med[i].Manufacture_date.yy;
+			cout<<"Enter Expiry Date: \n";
+			cout<<"      Day: "; cin>>med[i].Expiry_date.dd;
+			cout<<"      Month: "; cin>>med[i].Expiry_date.mm;
+			cout<<"      Year: "; cin>>med[i].Expiry_date.yy;
+			id=med[i].ID;
+		}	
+		
+	} break;
+	
+}
+	
+}
+
+void View_store(medicine_types stored[]){
+	
+  cout<<"The stack of medicine in the store is as shown below"<<endl;
+  cout<<"-----------------------------------------------------------------"<<endl;
+  cout<<"-----------------------------------------------------------------"<<endl;
+  cout<<"Med.ID \t Med. Name \t   Quant.  Price \t Drug type \t Manufacure \t expiry date"<<endl;
+  cout<<"       \t           \t        \t       \t           \t   Date     \t           "<<endl;
+   			cout.setf(ios_base::left);
+		for(int i=0;i<id;++i){
+			if(stored[i].name!="0"){
+		    cout<<stored[i].ID<<setw(1)<<"\t "<<stored[i].name<<setw(1)<<"\t   "<<stored[i].quantity<<setw(1)<<"\t  "<<stored[i].price<<setw(1)<<"\t\t "<<stored[i].type<<setw(1)<<"\t"
+			    <<stored[i].Manufacture_date.dd<<"/"<<stored[i].Manufacture_date.mm<<"/"<<stored[i].Manufacture_date.yy
+				<<"\t"<<stored[i].Expiry_date.dd<<"/"<<stored[i].Expiry_date.mm<<"/"<<stored[i].Expiry_date.yy<<endl;
+	}
+		}
+	cout<<"-----------------------------------------------------------------"<<endl;
+    cout<<"-----------------------------------------------------------------"<<endl;
+	
+} 
+
