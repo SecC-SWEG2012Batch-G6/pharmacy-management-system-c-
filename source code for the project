@@ -12,9 +12,10 @@
 	    cout<<"+ 3. View drug stack      +"<<endl;
 	    cout<<"+ 4. Clear Expired drugs  +"<<endl;
 	    cout<<"+     and See Warnings    +"<<endl;
-	    cout<<"+ 5. Daily total sales    +"<<endl;
-	    cout<<"+ 6. Back to Main Menu    +"<<endl;
-		cout<<"+ 7. Exit                 +"<<endl;
+	    cout<<"+ 5. Delete a medicine    +"<<endl;
+	    cout<<"+ 6. Daily total sales    +"<<endl;
+	    cout<<"+ 7. Back to Main Menu    +"<<endl;
+		cout<<"+ 8. Exit                 +"<<endl;
 		cout<<"+ + + + + + + + + + + + + +"<<endl;
 	}
 	
@@ -52,7 +53,7 @@ struct Total_sales_store{
 	medicine_types Disposed_Med[500]; //universal structure to store expired drugs
 	
 	//Function declarations
-	void setZero(medicine_types Zero[],int n);
+	void Delete_Med(medicine_types stored[]);
 	void Store_Drug (medicine_types med[]);
 	void View_store(medicine_types stored[]);
 	void check_stack(medicine_types Med_stack[]);
@@ -135,7 +136,7 @@ struct Total_sales_store{
 	void admin_menu(medicine_types store[])
 	{   
 		int choice;
-	    do{
+	    do{label_bb:
 		Expiry_Notification_Indicator(store); //function call to indicate existance of expired drug
 		system("pause");
 	     system("cls");
@@ -156,14 +157,18 @@ struct Total_sales_store{
 	    	case 4: cout<<"cleared medicines!!!"<<endl;
 					Drug_Disposal(store);
 					cout<<"WELL done!!!"<<endl; break;
-			case 5: Total_sales_table(store);
+			case 5: Delete_Med(store);
+			   		break;
+					cout<<"WELL done!!!"<<endl; break;
+			case 6: Total_sales_table(store);
 			        break;
-	    	case 6: main_menu(store);
+	    	case 7: main_menu(store);
 	    			system("pause");
 	    	        break;
-	    	default: cout<<"You choose to to exit the program"<<endl;
+	    	case 8: cout<<"You choose to to exit the program"<<endl;
 			        system("pause");
 					exit(0);
+			default:cout<<"Incorrect choice enter again..."<<endl; goto label_bb; break;
 		   }
 	   	
 	   }while(true);
@@ -171,7 +176,7 @@ struct Total_sales_store{
 	}
 	
 	void customer_menu(medicine_types store[])
-	{   
+	{   label_mm:
 		int choice;
 	    do{system("pause");
 	     system("cls");
@@ -192,25 +197,34 @@ struct Total_sales_store{
 	    	case 4: main_menu(store);
 	    			system("pause");
 	    	        break;
-	    	default: cout<<"You choose to to exit the program"<<endl;
+	    	case 5: cout<<"You choose to to exit the program"<<endl;
 			        system("pause");
 					exit(0);
+			default: cout<<"Incorrect choice enter again..."<<endl; goto label_mm; break;
 		   }
 	   	
 	   }while(true);
 	}
 	
-	void setZero(medicine_types Zero[],int n){
-			for(int i=0;i<n;i){
-			
-			Zero[i].ID={0};
-			Zero[i].quantity={0};
-			Zero[i].price={0};
-			Zero[i].name={""};
-			Zero[i].Manufacture_date.dd={0};
-			Zero[i].Manufacture_date.mm={0};
-			Zero[i].Manufacture_date.yy={0};
+	void Delete_Med(medicine_types stored[]){
+		int M_id;
+		cout<<"Enter the ID of the medicine you are gong to delete:  "; cin>>M_id;
+			for(int i=0;i<id;i++){
+			if(M_id==stored[i].ID){
+				for(int k=i;k<id-1;k++){
+					stored[k]=stored[k+1];
+				}
+			}	
 		}
+		id--;
+	cout<<endl;
+		for(int k=0;k<id;k++){
+				stored[k].ID=k+1;
+				cout<<stored[k].ID<<" ";
+		}
+				
+		cout<<"The drug ID have been modified due the cleared drug"<<endl<<endl;
+		
 	}
 	
 	void check_stack(medicine_types Med_stack[]){
@@ -306,10 +320,7 @@ struct Total_sales_store{
 		   {
 		   
 		   	for(int k=0;k<10;++k){
-				med[k].ID={0};
-				med[k].name={"0"};
-				med[k].quantity={0};
-				med[k].price={0};
+				med[k].name="0";
 			}
 	    
 		cout<<"\n Enter the necessary informations for the drug you want to store!!!"<<endl;
