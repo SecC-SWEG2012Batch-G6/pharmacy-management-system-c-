@@ -36,12 +36,16 @@
 	    int dd,mm,yy;
 	};
 	
+	struct med_info{
+	string type,name,form;
+	};
+
 	struct medicine_types{
-	int ID,quantity,number_of_sold;
+	int ID;
+	med_info Detial;
+	int quantity,number_of_sold;
 	float price,cost_of_each_drug;
-	string name;
 	Date Manufacture_date,Expiry_date;
-	string type;
 
 };
 
@@ -50,7 +54,7 @@ struct Total_sales_store{
 	float total_sale;
 }Med_sales[500];
 	
-	medicine_types Disposed_Med[500]; //universal structure to store expired drugs
+	medicine_types Disposed_Med[500]; //universal structure definitionto store expired drugs
 	
 	//Function declarations
 	void Delete_Med(medicine_types stored[]);
@@ -71,11 +75,18 @@ struct Total_sales_store{
 	    //cout<<"Welcome to Our medical store Program"<<endl;
 	    //cout<<"---------------------------------------"<<endl;
 	    setprecision(3);
-	    medicine_types store[100]={{1,10,0,12,11,"paracetamol",12,12,2200,11,11,2022,"antibiotic"},{2,10,0,12,11,"paracetamol",10,12,2200,11,11,2020,"antibiotic"},
-	{3,10,0,12,11,"paracetamol",12,12,2000,11,11,2020,"antibiotic"},{4,10,0,12,10.99,"paracetamol",12,12,2200,11,9,2021,"antibiotic"},
-	{5,10,0,12,11,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{6,10,0,12,11,"paracetamol",12,12,2200,11,11,2019,"antibiotic"},
-	{7,10,0,12,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{8,10,0,12,10,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},
-	{9,10,0,12,13,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{10,10,0,12,9,"paracetamol",12,12,2200,11,11,2209,"antibiotic"}};
+            
+	    medicine_types store[100]={{1,"antibiotic","paracetamol","Tablet",100,50,12,11,12,12,2200,11,11,2022},
+	                              {2,"anti-diabetic","Humalog","Tablet or Liquid",160,70,12,11,10,12,2200,11,11,2020},
+                                  {3,"electrolytes","Phoslo","Tablet",200,150,12,11,12,12,2000,11,11,2020},
+                                  {4,"anti-pyretic","Aspirin","Tablet",600,38,12,10,99,12,12,2200,11,9,2021},
+                                  {5,"decongestants","Afrin","Tablet or Liquid",170,86,12,11,12,12,2200,11,11,2209},
+                                  {6,"anti-tussive","Vicks Formula 44","Tablet or Liquid",400,73,12,11,12,12,2200,11,11,2019},
+	                              {7,"contraceptives","Nexplanon","Tablet",300,80,12,12,12,12,2200,11,11,2209},
+	                              {8,"anti-histamine","Xyzal","Tablet or Liquid",180,23,12,10,12,12,2200,11,11,2209},
+                                  {9,"anti-emetics","Meclizine","Tablet",300,100,12,13,12,12,2200,11,11,2209},
+                                  {10,"anti-hypertensive","Lisinoprril","Tablet or Liquid",580,50,12,9,12,12,2200,11,11,2209}};
+	    
 	  for(int i=0;i<100;i++){
 	  	store[i].number_of_sold=0;
 	  } 
@@ -95,7 +106,7 @@ struct Total_sales_store{
 	    int num;
 	    do
 	    {		
-	        Expiry_Notification_Indicator(store); //function call to indicate existance of expired drug
+	        Expiry_Notification_Indicator(store); //function call to indicate existence of expired drug
 			int count=0;
 	        cout << "\n\n\n\tMAIN MENU";
 	        cout << "\n\n\t01. CUSTOMER";
