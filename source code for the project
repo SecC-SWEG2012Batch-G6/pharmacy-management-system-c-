@@ -250,20 +250,53 @@ struct Total_sales_store{
 		{
 			cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
 			for(int i=0;i<num_of_med;++i){
-			     //med[id].ID=id+1;
-				cout<<"Drug ID: "; cin>>med[id].ID;
-				cout<<"Enter Drug Name: "; cin>>med[id].name;
-				cout<<"Enter the quantity of this medicine: "; cin>>med[id].quantity;
+			    med[id].ID=id+1;
+				cout<<"Drug ID: "<<med[id].ID<<endl;
+				cin.ignore();
+				cout<<"Enter Drug Name: "; getline(cin,med[id].name);
+				cin.ignore();
+				cout<<"Enter the quantity of this medicine: "; cin>>med[id].quantity;\
+				cin.ignore();
 				cout<<"Enter Price: ";  cin>>med[id].price;
 				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med[id].type;
 				cout<<"Enter Manufactured Date: \n";
+				label3:
 				cout<<"      Day: "; cin>>med[id].Manufacture_date.dd;
+				if(med[id].Manufacture_date.dd>31 || med[id].Manufacture_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto label3;
+				}
+				label4:
 				cout<<"      Month: "; cin>>med[id].Manufacture_date.mm;
+				if(med[id].Manufacture_date.mm>12 || med[id].Manufacture_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label4;
+				}
+				label5:
 				cout<<"      Year: "; cin>>med[id].Manufacture_date.yy;
+				if(med[id].Manufacture_date.yy<2000){
+					cout<<"Incorrect year out of bound enter again(2000-)!!!"<<endl;
+					goto label5;
+				}
+				label6:
 				cout<<"Enter Expiry Date: \n";
 				cout<<"      Day: "; cin>>med[id].Expiry_date.dd;
+				if(med[id].Expiry_date.dd>31 || med[id].Expiry_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(2000-)!!!"<<endl;
+					goto label6;
+				}
+				label7:
 				cout<<"      Month: "; cin>>med[id].Expiry_date.mm;
+				if(med[id].Expiry_date.mm>12 || med[id].Expiry_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label7;
+				}
+				label8:
 				cout<<"      Year: "; cin>>med[id].Expiry_date.yy;
+				if(med[id].Expiry_date.yy<2000){
+					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+					goto label8;
+				}
 				id++; cout<<"\n";
 			}
 		} break;
@@ -284,18 +317,49 @@ struct Total_sales_store{
 			for(int i=0;i<num_of_med;++i){
 			    med[i].ID=i+1;
 				cout<<"Drug ID: "<<med[i].ID<<endl;
-				cout<<"Enter Drug Name: "; cin>>med[i].name;
+				cin.ignore();
+				cout<<"Enter Drug Name: "; getline(cin,med[i].name);
+				cin.ignore();
 				cout<<"Enter the quantity of this medicine: "; cin>>med[i].quantity;
 				cout<<"Enter Price: ";  cin>>med[i].price;
-				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med[i].type;
+				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): ";getline(cin,med[i].type);
 				cout<<"Enter Manufactured Date: \n";
-				cout<<"      Day: "; cin>>med[i].Manufacture_date.dd;
+				label9:
+				cout<<"      Day: "; cin>>med[id].Manufacture_date.dd;
+				if(med[i].Manufacture_date.dd>31 || med[i].Manufacture_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto label9;
+				}
+				label_10:
 				cout<<"      Month: "; cin>>med[i].Manufacture_date.mm;
+				if(med[i].Manufacture_date.mm>12 || med[i].Manufacture_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label_10;
+				}
+				label_11:
 				cout<<"      Year: "; cin>>med[i].Manufacture_date.yy;
+				if(med[i].Manufacture_date.yy<2000){
+					cout<<"Incorrect year out of bound enter again(2000-)!!!"<<endl;
+					goto label_11;
+				}
+				label_12:
 				cout<<"Enter Expiry Date: \n";
 				cout<<"      Day: "; cin>>med[i].Expiry_date.dd;
+				if(med[i].Expiry_date.dd>31 || med[i].Expiry_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(2000-)!!!"<<endl;
+					goto label_12;
+				}
+				label_13:
 				cout<<"      Month: "; cin>>med[i].Expiry_date.mm;
+				if(med[i].Expiry_date.mm>12 || med[i].Expiry_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label_13;
+				}
+				label_14:
 				cout<<"      Year: "; cin>>med[i].Expiry_date.yy;
+				if(med[i].Expiry_date.yy<2000){
+					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+					goto label_14;
 				id=med[i].ID;
 			}	
 			
@@ -305,7 +369,10 @@ struct Total_sales_store{
 		
 	}
 	
-	void View_store(medicine_types stored[]){
+}
+	
+	void View_store(medicine_types stored[])
+	{
 		
 	  cout<<"The database of the medicine in the store is as shown below"<<endl;
 	  cout<<"-----------------------------------------------------------------"<<endl;
