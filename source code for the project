@@ -19,16 +19,6 @@
 	}
 	
 	
-	/*void Menu(){
-		cout<<"+ + + + + + + + + + + + + +"<<endl;
-		cout<<"+ What do you want to do? +"<<endl;
-		cout<<"+ 1. Update drug store    +"<<endl;
-		cout<<"+ 2. View drug store      +"<<endl;
-	    cout<<"+ 3. View drug stack      +"<<endl;
-	    cout<<"+ 4. Back to Main Menu    +"<<endl;
-		cout<<"+ 5. Exit                 +"<<endl;
-		cout<<"+ + + + + + + + + + + + + +"<<endl;
-	} */
 	void customMenu(){
 		cout<<"+ + + + + + + + + + + + + + + +"<<endl;
 		cout<<"+ What do you want to do?     +"<<endl;
