@@ -8,8 +8,9 @@ void Menu(){
 	cout<<"+ What do you want to do? +"<<endl;
 	cout<<"+ 1. Update drug store    +"<<endl;
 	cout<<"+ 2. View drug store      +"<<endl;
-    cout<<"+ 3. View drug stack      +"<<endl;
-    cout<<"+ 4. Back to Main Menu    +"<<endl;
+        cout<<"+ 3. View drug stack      +"<<endl;
+        cout<<"+ 4. Back to Main Menu    +"<<endl;
+	cout<<"+ 5. View total sale      +"<<endl;
 	cout<<"+ 5. Exit                 +"<<endl;
 	cout<<"+ + + + + + + + + + + + + +"<<endl;
 } 
@@ -38,6 +39,12 @@ struct medicine_types{
 	
 	
 };
+struct orderInfo{
+	           int receiptNo;
+	           char customName[];
+	           Date orderdate;
+	           medicine_types medicine;
+	           }customer[100];
 //Function declarations
 void setZero(medicine_types Zero[],int n);
 void Store_Drug (medicine_types med[]);
@@ -47,6 +54,7 @@ void main_menu(medicine_types store[]);
 void admin_menu(medicine_types store[]);
 void customer_menu(medicine_types store[]);
 void place_order(medicine_types store[]);
+void totalSale(orderInfo customer[], int n);
 
 
 int main(){ 
@@ -171,6 +179,9 @@ void admin_menu(medicine_types store[])
     	        break;
     	case 4: main_menu(store);
     			system("pause");
+    	        break;
+	case 5:totalSale(customer,100);
+	                system("pause");
     	        break;
     	default: cout<<"You choose to to exit the program"<<endl;
 		        system("pause");
@@ -387,4 +398,43 @@ void place_order(medicine_types store[])
 			 customer_menu(store);
 }
 
+void totalSale(orderInfo customer[], int n){
+  int m,i,j;
+  float sale=0;
+  float total_sale=0;
+	cout<<"How Many orders are there today?"<<endl;
+	cin>>n;
+	if(n==0){
+		cout<<"There are no orders today."<<endl;
+	}
+	else{
+	for(i=0;i<n;i++){
+		cout<<"Enter" <<i+1 <<" Customers Name:  ";
+		cin>>customer[i].customName;
+		cout<<"How many medicines did the customer ordered?"<<endl;
+		cin>>m;
+		for( j=0;j<m;j++){
+		cout<<"\nEnter"<<j+1<< " Medicine  Id:  ";
+		cin>>customer[j].medicine.ID;
+		cout<<"\nEnter Medicine  Name:  ";
+		cin>>customer[j].medicine.name;
+		cout<<"\nEnter Medicine  Type:  ";
+		cin>>customer[j].medicine.type;
+		cout<<"Enter the price:  ";
+		cin>>customer[j].medicine.price;
+		cout<<"\nHow many of this madicine were ordered?  ";
+		cin>>customer[j].medicine.quantity;
+
+		sale+=(customer[j].medicine.quantity*customer[j].medicine.price);
+		}
+		cout<<"\nEnter receipt Number:  ";
+		cin>>customer[i].receiptNo;
+
+		cout<<"Enter Order Date dd/mm/yy:  ";
+		cin>>customer[i].orderdate.dd;
+		cin>>customer[i].orderdate.dd;
+		cin>>customer[i].orderdate.dd;
+		}
+total_sale+=sale;
+	}
 
