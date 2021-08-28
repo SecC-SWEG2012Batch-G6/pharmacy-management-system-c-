@@ -19,9 +19,9 @@ void customMenu(){
 	cout<<"+ What do you want to do? +"<<endl;
 	cout<<"+ 1. View drug store      +"<<endl;
 	cout<<"+ 2. View drug stack      +"<<endl;
-    cout<<"+ 3. Place Order          +"<<endl;
-    cout<<"+ 4. Back to Main Menu    +"<<endl;
-    cout<<"+ 5. Exit                 +"<<endl;
+        cout<<"+ 3. Place Order          +"<<endl;
+        cout<<"+ 4. Back to Main Menu    +"<<endl;
+        cout<<"+ 5. Exit                 +"<<endl;
 	cout<<"+ + + + + + + + + + + + + +"<<endl;
 }
 		
@@ -438,3 +438,14 @@ void totalSale(orderInfo customer[], int n){
 total_sale+=sale;
 	}
 
+
+	cout<<"Order Information"<<endl;
+	cout<< "\t\t\tCUSTOMER NAME\t\tMEDICINE ID\t\tMEDICINE NAME\t\tMEDICINE TYPE\t\tPRICE\t\tQUANTITY\t\tRECEIPT NO\t\tORDER DATE\t\tTOLAL SALE PRICE OF EACH MEDICINE"<<endl;
+	cout<<endl;
+	cout<<"\t\t\t"<<customer[i].customName<<"\t\t"<<customer[j].medicine.ID<<"\t\t"<<customer[j].medicine.name<<"\t\t"<<customer[j].medicine.type;
+	cout<<"\t\t" <<customer[j].medicine.price<<"\t\t"<<customer[j].medicine.quantity<<"\t\t"<<customer[i].receiptNo<<"\t\t"<<customer[i].orderdate.dd;
+	cout<<"/"<<customer[i].orderdate.mm<<"/"<<customer[i].orderdate.yy<<"\t\t"<<sale;
+	cout<<"TOTAL SALE-------------------------------------------------------------------------------------------------------------------------------";
+		cout<<"-------------------------"<<total_sale;
+
+}
