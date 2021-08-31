@@ -692,56 +692,80 @@ struct Total_sales_store{
 		cout<<"---------------------------------------------------"<<endl;
 	
     }
-             
-    void profit_analysis(medicine_typess store[]){
-           
-	   cout <<"the profit and loss of each sold drug type is demonstrated below"<<endl;
-      
-           cout<<"---------------------------------------------------"<<endl;
-           cout<<setw(8)<<"med.ID"<<setw(10)<<"med name"<<setw(12)<<"profit from each drug"<<setw(12)<<"loss of each drug"<<setw(10)<<endl;
-      
-        for (int k=0 ;k<id ;k++){
-               
-                              cout<<setw(8)<<store[k].ID<<setw(10)<<store[k].Name<<setw(12)
-                    <<(store[k].price)*(store[k].num_of_sold)-(store[k].cost)*(store[k].num_of_sold)<<setw(12)
-                    <<(store[k].cost)*(store[k].num_of_sold)-(store[k].price)*(store[k].num_of_sold<<endl;
-        }
-            
-        cout<<"--------------------------------------------------"<<endl;
-        cout<<"--------------------------------------------------"<<endl;
-         
-                 cout<<"the total profit and loss analysis is below"<<endl;
-          
-          total_cost = (store[k].cost_of_each_drug)*(quantity)
-          total_profit = (store[k].price)*(store[k].num_of_sold)*(quantity)-(store[k].cost_of_each_drug)*(quantity)
-          total_loss = (store[k].cost_of_each_drug)*(quantity)-(store[k].price)*(store[k].num_of_sold)*(quantity)
-          total_percentage_profit = (total_profit/total_cost)*100
-          total_percentage_loss= (total_loss/total_cost)*100
-          
-                 cout<<"total profit of the pharmacy ="<< total_profit <<endl;
-                 cout<<"total loss of the pharmacy  ="<< total_loss <<endl;
-                 cout<<"total percentage profit of pharmacy ="<< total_percentage_profit <<endl;
-                 cout<<"total percentage loss of the pahrmacy ="<< totaol_percentage_loss<<endl;
-              
-             cout<<"--------------------------------------------------------------"<<endl;
-            
-                cout<<"the profitablity of the pharmacy is interprated below at this point"  <<endl;
-                     
-            int main() 
-              if(total_percentage_profit>85){
-                  cout<<"the pharmacy is at most profitable stage."<<endl;
-              }
-              else if(total_percentage_profit>65){
-                  cout<<"the pharamacy generates high profit at this point"<<endl;
-              }
-              else if(total_percentage_profit>=50){
-                  cout<<"the pahrmacy generates moderate profit at this point"<<endl;
-              }
-              else if(total_percentage_profit<50&&total_percentage_loss>30%){
-                  cout<<"attention: the pharmacy is in loss right now"<<endl;
-              }
-                else {
-                    cout<<"something went wrong";
-                }
-              }
-    }
+
+    
+
+	void Total_sales_table(medicine_types store[]){
+		int check=0;
+		for(int i=0;i<id;++i){
+		    	if(store[i].number_of_sold!=0){
+		    		check++;
+				}
+			}
+		if(check!=0){
+		cout<<"Te daily total sales summary is as shown below"<<endl<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<setw(8)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(13)<<"Quant. of sold"<<setw(15)
+		    <<"selling Price"<<setw(13)<<"Total sales in Birr"<<setw(5)<<endl;
+
+		 for(int k=0;k<id;k++){
+		 	if(store[k].number_of_sold!=0){
+		 		cout<<setw(5)<<store[k].ID<<setw(20)<<store[k].name<<setw(13)<<store[k].number_of_sold
+				    <<setw(15)<<store[k].price<<setw(15)<<(store[k].price)*(store[k].number_of_sold)<<setw(10)<<endl;
+			 }
+
+		 }
+
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		}
+
+		else cout<<"There is no sale record"<<endl;
+
+
+       
+	void Profit_Analysis(medicine_types store[]){
+		float Toatl_cost=0,Total_profit=0,Net_profit;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<setw(8)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(13)<<"Quant. of sold"<<setw(15)
+		    <<"selling Price"<<setw(13)<<"Total sales in Birr"<<setw(10)<<"Buying Price"<<setw(15)<<"Profit from sold Medicines(Birr)"<<endl;
+
+
+		 for(int k=0;k<id;k++){
+		 	if(store[k].number_of_sold!=0){
+		 		cout<<setw(5)<<store[k].ID<<setw(20)<<store[k].name<<setw(13)<<store[k].number_of_sold
+				    <<setw(15)<<store[k].price<<setw(15)<<(store[k].price)*(store[k].number_of_sold)<<setw(10)
+					<<store[k].cost_of_each_drug<<setw(10)
+					<<((store[k].price)*(store[k].number_of_sold))-((store[k].cost_of_each_drug)*(store[k].number_of_sold))<<endl;
+			    Total_profit+=((store[k].price)*(store[k].number_of_sold))-((store[k].cost_of_each_drug)*(store[k].number_of_sold));
+			 }
+
+		 }
+		 cout<<setw(50)<<"Total profit: "<<Total_profit<<"Br."<<endl<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl<<endl;
+		system("pause");
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"The disposed  medicines list"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+			cout<<setw(10)<<"Drug ID"<<setw(15)<<"Name "<<setw(7)<<"quantity"<<setw(7)
+			    <<"Bought price"<<setw(10)<<"Cost of the dispposed medicines"<<endl;
+		for(int j=0;j<dd;j++){
+			   cout<<setw(7)<<Disposed_Med[j].ID<<setw(17)<<Disposed_Med[j].name<<setw(10)
+			       <<Disposed_Med[j].quantity<<setw(7)<<setw(7)<<Disposed_Med[j].cost_of_each_drug<<setw(10)
+				   <<((Disposed_Med[j].quantity)*(Disposed_Med[j].cost_of_each_drug))<<endl;
+				Toatl_cost+=((Disposed_Med[j].quantity)*(Disposed_Med[j].cost_of_each_drug));
+	    }
+	    cout<<setw(50)<<"Total cost: "<<Toatl_cost<<"Br."<<endl;
+
+	    cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+
+		cout<<"Net Profit: "<<Total_profit-Toatl_cost<<"Br."<<endl;
+		system("pause");
+	}
+  
+    
