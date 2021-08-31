@@ -96,11 +96,12 @@ struct Total_sales_store{
 	    //cout<<"Welcome to Our medical store Program"<<endl;
 	    //cout<<"---------------------------------------"<<endl;
 	    setprecision(3);
-	    medicine_types store[100]={{1,10,0,12,11,"paracetamol",12,12,2200,11,11,2022,"antibiotic"},{2,10,0,12,11,"paracetamol",10,12,2200,11,11,2020,"antibiotic"},
-	{3,10,0,12,11,"paracetamol",12,12,2000,11,11,2020,"antibiotic"},{4,10,0,12,10.99,"paracetamol",12,12,2200,11,9,2021,"antibiotic"},
-	{5,10,0,12,11,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{6,10,0,12,11,"paracetamol",12,12,2200,11,11,2019,"antibiotic"},
-	{7,10,0,12,12,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{8,10,0,12,10,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},
-	{9,10,0,12,13,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{10,10,0,12,9,"paracetamol",12,12,2200,11,11,2209,"antibiotic"}};
+           medicine_types store[100]={{1,100,0,50.78,40.5,"Afrin",12,12,2200,11,11,2022,"decongestants"},{2,150,6,80,60,"Aspirin",10,12,2200,11,11,2020,"anti-pyretic"},
+	{3,200,4,100.98,90,"Humalog",12,12,2000,11,11,2020,"anti-diabetic"},{4,300,10,120.87,80.9,"Lisinoprril",12,12,2200,11,9,2021,"anti-hypertensive"},
+	{5,400,8,152.67,111,"Meclizine",12,12,2200,11,11,2209,"anti-emetics"},{6,220,23,129.9,119.8,"Nexplanon",12,12,2200,11,11,2019,"contraceptives"},
+	{7,210,7,312.67,292.67,"paracetamol",12,12,2200,11,11,2209,"antibiotic"},{8,310,0,212,199.10,"Phoslo",12,12,2200,11,11,2209,"electrolytes"},
+	{9,410,23,112.7,100.13,"Vicks",12,12,2200,11,11,2209,"anti-tussive"},{10,180,8,212.76,199.9,"Xyzal",12,12,2200,11,11,2209,"anti-histaminess"}};
+
 	  for(int i=0;i<100;i++){
 	  	store[i].number_of_sold=0;
 	  } 
