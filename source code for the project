@@ -691,4 +691,56 @@ struct Total_sales_store{
 		cout<<"---------------------------------------------------"<<endl;
 	
     }
-	
+             
+    void profit_analysis(medicine_typess store[]){
+           
+	   cout <<"the profit and loss of each sold drug type is demonstrated below"<<endl;
+      
+           cout<<"---------------------------------------------------"<<endl;
+           cout<<setw(8)<<"med.ID"<<setw(10)<<"med name"<<setw(12)<<"profit from each drug"<<setw(12)<<"loss of each drug"<<setw(10)<<endl;
+      
+        for (int k=0 ;k<id ;k++){
+               
+                              cout<<setw(8)<<store[k].ID<<setw(10)<<store[k].Name<<setw(12)
+                    <<(store[k].price)*(store[k].num_of_sold)-(store[k].cost)*(store[k].num_of_sold)<<setw(12)
+                    <<(store[k].cost)*(store[k].num_of_sold)-(store[k].price)*(store[k].num_of_sold<<endl;
+        }
+            
+        cout<<"--------------------------------------------------"<<endl;
+        cout<<"--------------------------------------------------"<<endl;
+         
+                 cout<<"the total profit and loss analysis is below"<<endl;
+          
+          total_cost = (store[k].cost_of_each_drug)*(quantity)
+          total_profit = (store[k].price)*(store[k].num_of_sold)*(quantity)-(store[k].cost_of_each_drug)*(quantity)
+          total_loss = (store[k].cost_of_each_drug)*(quantity)-(store[k].price)*(store[k].num_of_sold)*(quantity)
+          total_percentage_profit = (total_profit/total_cost)*100
+          total_percentage_loss= (total_loss/total_cost)*100
+          
+                 cout<<"total profit of the pharmacy ="<< total_profit <<endl;
+                 cout<<"total loss of the pharmacy  ="<< total_loss <<endl;
+                 cout<<"total percentage profit of pharmacy ="<< total_percentage_profit <<endl;
+                 cout<<"total percentage loss of the pahrmacy ="<< totaol_percentage_loss<<endl;
+              
+             cout<<"--------------------------------------------------------------"<<endl;
+            
+                cout<<"the profitablity of the pharmacy is interprated below at this point"  <<endl;
+                     
+            int main() 
+              if(total_percentage_profit>85){
+                  cout<<"the pharmacy is at most profitable stage."<<endl;
+              }
+              else if(total_percentage_profit>65){
+                  cout<<"the pharamacy generates high profit at this point"<<endl;
+              }
+              else if(total_percentage_profit>=50){
+                  cout<<"the pahrmacy generates moderate profit at this point"<<endl;
+              }
+              else if(total_percentage_profit<50&&total_percentage_loss>30%){
+                  cout<<"attention: the pharmacy is in loss right now"<<endl;
+              }
+                else {
+                    cout<<"something went wrong";
+                }
+              }
+    }
