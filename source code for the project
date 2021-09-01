@@ -769,3 +769,36 @@ struct Total_sales_store{
 	}
   
     
+	void Total_sales_table(medicine_types store[]){
+		int check=0;
+		for(int i=0;i<id;++i){
+		    	if(store[i].number_of_sold!=0){
+		    		check++;
+				}
+			}
+		if(check!=0){	
+		cout<<"Te daily total sales summary is as shown below"<<endl<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<setw(8)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(13)<<"Quant. of sold"<<setw(15)
+		    <<"selling Price"<<setw(13)<<"Total sales in Birr"<<setw(5)<<endl;
+		    
+		 for(int k=0;k<id;k++){
+		 	if(store[k].number_of_sold!=0){
+		 		cout<<setw(5)<<store[k].ID<<setw(20)<<store[k].name<<setw(13)<<store[k].number_of_sold
+				    <<setw(15)<<store[k].price<<setw(15)<<(store[k].price)*(store[k].number_of_sold)<<endl;
+			 }
+		 	
+		 }
+		 
+		cout<<"---------------------------------------------------"<<endl;
+		cout<<"---------------------------------------------------"<<endl;
+		}
+		
+		else cout<<"There is no sale record"<<endl;
+	
+	
+	}
+	
+
+
