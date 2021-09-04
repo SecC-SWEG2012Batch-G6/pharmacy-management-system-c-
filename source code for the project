@@ -5,32 +5,44 @@
 	using namespace std;
 	int id=10,dd=0;
 	void Menu(){
-		cout<<"+ + + + + + + + + + + + + +"<<endl;
-		cout<<"+ What do you want to do? +"<<endl;
-		cout<<"+ 1. Update drug store    +"<<endl;
-		cout<<"+ 2. View drug store      +"<<endl;
-	    cout<<"+ 3. View drug stack      +"<<endl;
-	    cout<<"+ 4. Clear Expired drugs  +"<<endl;
-	    cout<<"+     and See Warnings    +"<<endl;
-	    cout<<"+ 5. Disposed Medicines   +"<<endl;
-	    cout<<"+ 6. Delete a medicine    +"<<endl;
-	    cout<<"+ 7. Daily total sales    +"<<endl;
-	    cout<<"+ 8. Back to Main Menu    +"<<endl;
-	    cout<<"+ 0. Total profit Vs Total cost   +"<<endl;
-		cout<<"+ 9. Exit                 +"<<endl;
-		cout<<"+ + + + + + + + + + + + + +"<<endl;
+           cout<<right;
+           cout << setw(60) << "choose the service you would like to perform: \n";
+           cout << "\t\t\t"
+		<< " [1] TO update drug store \n"
+                << "\t\t\t"
+		<< " [2] TO view drug store \n"
+                << "\t\t\t"
+	        << " [3] TO view drug stack \n"
+	        << "\t\t\t"
+	        << " [4] TO clear Expired drugs and See Warnings \n"
+	        << "\t\t\t"
+	        << " [5] TO disposed Medicines \n"
+	        << "\t\t\t"
+	        << " [6] TO delete a medicine  \n"
+	        << "\t\t\t"
+	        << " [7] TO daily total sales \n"
+	        << "\t\t\t"
+                << " [8] TO back to Main Menu  \n"
+	        << "\t\t\t"
+	        << " [9] TO view total profit Vs Total cost \n"
+	        << "\t\t\t"
+                << " [0] TO exit \n";
 	}
 	
 	
 	void customMenu(){
-		cout<<"+ + + + + + + + + + + + + + + +"<<endl;
-		cout<<"+ What do you want to do?     +"<<endl;
-		cout<<"+ 1. View drug store          +"<<endl;
-		cout<<"+ 2. View drug availability   +"<<endl;
-	    cout<<"+ 3. Place Order              +"<<endl;
-	    cout<<"+ 4. Back to Main Menu        +"<<endl;
-	    cout<<"+ 5. Exit                     +"<<endl;
-		cout<<"+ + + + + + + + + + + + + + + +"<<endl;
+         cout<<right;
+         cout << setw(60) << "choose the service you would like to perform: \n";
+         cout << "\t\t\t"
+	      << " [1] TO view drug store  \n"
+              << "\t\t\t"
+	      << " [2] TO view drug availability  \n"
+              << "\t\t\t"
+	      << " [3] TO place Order \n"
+	      << "\t\t\t"
+	      << " [4] TO back to Main Menu  \n"
+	      << "\t\t\t"
+	      << " [5] TO exit \n";
 	}
 	
 	void About(){
@@ -129,9 +141,10 @@ struct Total_sales_store{
 	void main_menu(medicine_types store[])
 	{   
 		system("cls");
-		cout<<"---------------------------------------"<<endl;
-	    cout<<"Welcome to Our medical store Program   "<<endl;
-	    cout<<"---------------------------------------"<<endl;
+
+    cout << setw(100) << "****************************************************************************************************" << endl;
+    cout << setw(100) << "********************************* AASTU PHARMACY SYSTEM *********************************************" << endl;
+    cout << setw(100) << "****************************************************************************************************" << endl;
 	    
 	    int num;
 	    do
