@@ -8,22 +8,22 @@ int id=10,dd=0;
 const int Size=500;
 void Menu(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(font_color,11);
-	cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
-	cout<<"+ What do you want to do? 	  		 +"<<endl;
-	cout<<"+ 1. Update drug store   		 	 +"<<endl;
-	cout<<"+ 2. View drug store     			 +"<<endl;
-    cout<<"+ 3. View drug stack     			 +"<<endl;
-    cout<<"+ 4. Clear Expired drugs 			 +"<<endl;
-    cout<<"+     and See Warnings    			 +"<<endl;
-    cout<<"+ 5. Disposed Medicines  			 +"<<endl;
-    cout<<"+ 6. Delete a medicine   			 +"<<endl;
-    cout<<"+ 7. Daily total sales 		    	 +"<<endl;
-    cout<<"+ 8. Modify An Entry 		    	 +"<<endl;
-    cout<<"+ M. Back to Main Menu    			 +"<<endl;
-    cout<<"+ P. Total profit Vs Total cost   	 +"<<endl;
-    cout<<"+ A. About                			 +"<<endl;
-	cout<<"+ E. Exit                 			 +"<<endl;
-	cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
+        cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
+        cout<<"+ What do you want to do? 	  		 +"<<endl;
+        cout<<"+ 1. Update drug store   		 	 +"<<endl;
+        cout<<"+ 2. View drug store     			 +"<<endl;
+        cout<<"+ 3. View drug stack     			 +"<<endl;
+        cout<<"+ 4. Clear Expired drugs 			 +"<<endl;
+        cout<<"+     and See Warnings    			 +"<<endl;
+        cout<<"+ 5. Disposed Medicines  			 +"<<endl;
+        cout<<"+ 6. Delete a medicine   			 +"<<endl;
+        cout<<"+ 7. Daily total sales 		    	 +"<<endl;
+        cout<<"+ 8. Modify An Entry 		    	 +"<<endl;
+        cout<<"+ M. Back to Main Menu    			 +"<<endl;
+        cout<<"+ P. Total profit Vs Total cost   	 +"<<endl;
+        cout<<"+ A. About                			 +"<<endl;
+        cout<<"+ E. Exit                 			 +"<<endl;
+        cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
 	SetConsoleTextAttribute(font_color,7);
 
 }
@@ -163,16 +163,16 @@ void Loading_bar(){
 
 void Struct_Initializer(medicine_types *store){
 
-    store[0]={1,205,0,55.67,23.50,"paracetamol",12,12,2200,11,11,2022,"antibiotic"};
-    store[1]={2,309,0,100.90,56.77,"Humalog",10,12,2200,11,11,2020,"anti-diabetic"};
-    store[2]={3,400,0,120.99,50.23,"Phoslo",12,12,2000,11,11,2020,"antibiotic"};
-    store[3]={4,156,0,125.55,10.99,"Aspirin",12,12,2200,11,9,2021,"antibiotic"};
-    store[4]={5,256,0,150.90,89.99,"Vicks Formula 44",12,12,2200,11,11,2024,"anti-tussive"};
-    store[5]={6,400,0,200,120.66,"Xyzal",12,12,2200,11,11,2019,"anti-histamine"};
-    store[6]={7,100,0,99.78,50,"Nexplanon",12,12,2200,11,11,2029,"contraceptives"};
-    store[7]={8,690,0,180,110.99,"Meclizine",12,12,2200,11,11,2022,"antibiotic"};
-    store[8]={1,324,0,175.76,100.67,"Lisinoprril",12,12,2200,11,11,2022,"anti-hyper"};
-    store[9]={10,222,0,145.78,99.54,"Afrin",12,12,2200,11,11,2021,"anti-pyretic"};
+    store[0]={1,205,0,55.67,23.50,"paracetamol",12,12,2020,11,11,2022,"antibiotic"};
+    store[1]={2,3,0,100.90,56.77,"Humalog",10,12,2018,11,11,2020,"anti-diabetic"};
+    store[2]={3,4,0,120.99,50.23,"Phoslo",12,12,2019,11,11,2020,"antibiotic"};
+    store[3]={4,156,0,125.55,10.99,"Aspirin",12,12,2020,11,9,2021,"antibiotic"};
+    store[4]={5,256,0,150.90,89.99,"Vicks Formula 44",12,12,2020,11,11,2024,"anti-tussive"};
+    store[5]={6,5,0,200.55,120.66,"Xyzal",12,12,2018,11,11,2019,"anti-histamine"};
+    store[6]={7,100,0,99.78,50,"Nexplanon",12,12,2020,11,11,2029,"contraceptives"};
+    store[7]={8,690,0,180,110.99,"Meclizine",12,12,2020,11,11,2022,"antibiotic"};
+    store[8]={1,324,0,175.76,100.67,"Lisinoprril",12,12,2020,11,11,2022,"anti-hyper"};
+    store[9]={10,222,0,145.78,99.54,"Afrin",12,12,2020,11,11,2021,"anti-pyretic"};
 
 }
 
@@ -382,7 +382,7 @@ void Delete_Med(medicine_types *stored){
 	cout<<"Enter the ID of the medicine you are gong to delete:  "; cin>>M_id;
 	Loading_bar();
 		for(int i=0;i<id;i++){
-		if(M_id==stored[i].ID){
+		if(M_id==(stored+i)->ID){
 			for(int k=i;k<id-1;k++){
 				stored[k]=stored[k+1];
 			}
@@ -393,8 +393,8 @@ cout<<endl;
  cout<<"The remaining medicenes...."<<endl;
   View_store(stored);
 	for(int k=0;k<id;k++){
-			stored[k].ID=k+1;
-			cout<<stored[k].ID<<" ";
+			(stored+k)->ID=k+1;
+			cout<<(stored+k)->ID<<" ";
 	}
 
 	cout<<"The drug ID have been modified due the cleared drug"<<endl<<endl;
@@ -424,7 +424,7 @@ void check_stack(medicine_types *Med_stack){
 				SetConsoleTextAttribute(font_color,8);
 			}
 			m++;
-			cout<<setw(10)<<Med_stack[i].ID<<setw(18)<<Med_stack[i].name<<setw(11)<<Med_stack[i].quantity<<setw(10)<<Med_stack[i].price<<endl;
+			cout<<setw(10)<<(Med_stack+i)->ID<<setw(18)<<(Med_stack+i)->name<<setw(11)<<(Med_stack+i)->quantity<<setw(10)<<(Med_stack+i)->price<<endl;
 
 		}
 	}
@@ -438,7 +438,7 @@ void check_stack(medicine_types *Med_stack){
 		cout.setf(ios_base::left);
 		for(int i=0;i<id;++i)
 			{
-				if(Med_ID==Med_stack[i].ID)
+				if(Med_ID==(Med_stack+i)->ID)
 				{
 				c++;
 				}
@@ -449,12 +449,12 @@ void check_stack(medicine_types *Med_stack){
 			SetConsoleTextAttribute(font_color,9);
 			for(int k=0;k<=id;++k){
 					if(Med_ID==Med_stack[k].ID){
-						cout<<setw(10)<<Med_stack[k].ID<<setw(18)<<Med_stack[k].name<<setw(13)<<Med_stack[k].quantity<<setw(15)<<Med_stack[k].price<<endl;
+						cout<<setw(10)<<(Med_stack+k)->ID<<setw(18)<<(Med_stack+k)->name<<setw(13)<<(Med_stack+k)->quantity<<setw(15)<<(Med_stack+k)->price<<endl;
 					}
 				}
 		}
 		else {
-		cout<<"The ID you entered doesn't have sny match in our store. Enter again: ";
+		cout<<"The ID you entered don't have any match in our store. Enter again: ";
 		goto back;
 		}
 		SetConsoleTextAttribute(font_color,7);
@@ -478,67 +478,67 @@ void Store_Drug (medicine_types *med){
 		cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
 		for(int i=0;i<num_of_med;++i){
 		    med[id].ID=id+1;
-			cout<<"Drug ID: "<<med[id].ID<<endl;
+			cout<<"Drug ID: "<<(med+id)->ID<<endl;
 			cin.ignore();
 			cout<<"Enter Drug Name: "; getline(cin,med[id].name);
 			cin.ignore();
 			cout<<"Enter the quantity of this medicine: ";
 			labe20:
-			cin>>med[id].quantity;
-			if(med[id].quantity<=0){
+			cin>>(med+id)->quantity;
+			if((med+id)->quantity<=0){
 				cout<<"No such Quantity,enter again "; goto labe20;
 			}
 			cin.ignore();
 			cout<<"Enter Price: ";
 			label21:
-			cin>>med[id].price;
-			if(med[id].price<0){
+			cin>>(med+id)->price;
+			if((med+id)->price<0){
 				cout<<"Price can't be negative,enter again "; goto label21;
 			}
 			cout<<"Enter Cost: ";
 			label22:
-			cin>>med[id].cost_of_each_drug;
-			if(med[id].price<0){
+			cin>>(med+id)->cost_of_each_drug;
+			if((med+id)->price<0){
 				cout<<"Negative value is noallowed,enter again "; goto label22;
 			}
 			cin.ignore();
-			cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med[id].type;
+			cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>(med+id)->type;
 			cin.ignore();
 			cout<<"Enter Manufactured Date: \n";
 			label3:
-			cout<<"      Day: "; cin>>med[id].Manufacture_date.dd;
-			if(med[id].Manufacture_date.dd>31 || med[id].Manufacture_date.dd<1){
+			cout<<"      Day: "; cin>>(med+id)->Manufacture_date.dd;
+			if((med+id)->Manufacture_date.dd>31 || (med+id)->Manufacture_date.dd<1){
 				cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
 				goto label3;
 			}
 			label4:
-			cout<<"      Month: "; cin>>med[id].Manufacture_date.mm;
-			if(med[id].Manufacture_date.mm>12 || med[id].Manufacture_date.mm<1){
+			cout<<"      Month: "; cin>>(med+id)->Manufacture_date.mm;
+			if((med+id)->Manufacture_date.mm>12 || (med+id)->Manufacture_date.mm<1){
 				cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
 				goto label4;
 			}
 			label5:
-			cout<<"      Year: "; cin>>med[id].Manufacture_date.yy;
-			if(med[id].Manufacture_date.yy<2000){
+			cout<<"      Year: "; cin>>(med+id)->Manufacture_date.yy;
+			if((med+id)->Manufacture_date.yy<2000){
 				cout<<"Incorrect year out of bound enter again(2000-)!!!"<<endl;
 				goto label5;
 			}
 			label6:
 			cout<<"Enter Expiry Date: \n";
 			cout<<"      Day: "; cin>>med[id].Expiry_date.dd;
-			if(med[id].Expiry_date.dd>31 || med[id].Expiry_date.dd<1){
+			if((med+id)->Expiry_date.dd>31 || (med+id)->Expiry_date.dd<1){
 				cout<<"Incorrect date out of bound enter again(2000-)!!!"<<endl;
 				goto label6;
 			}
 			label7:
-			cout<<"      Month: "; cin>>med[id].Expiry_date.mm;
-			if(med[id].Expiry_date.mm>12 || med[id].Expiry_date.mm<1){
+			cout<<"      Month: "; cin>>(med+id)->Expiry_date.mm;
+			if((med+id)->Expiry_date.mm>12 || (med+id)->Expiry_date.mm<1){
 				cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
 				goto label7;
 			}
 			label8:
-			cout<<"      Year: "; cin>>med[id].Expiry_date.yy;
-			if(med[id].Expiry_date.yy<2000){
+			cout<<"      Year: "; cin>>(med+id)->Expiry_date.yy;
+			if((med+id)->Expiry_date.yy<2000){
 				cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
 				goto label8;
 			}
@@ -693,7 +693,7 @@ int m=0;
 			m++;
 			if(stored[i].name!="0"){
 		    cout<<setw(8)<<(stored + i)->ID<<setw(20)<<(stored + i)->name<<setw(10)<<(stored + i)->quantity<<setw(10)
-		      	<<(stored + i)->price<<setw(10)<<setw(20)<<(stored + i)->type<<setw(1)<<"\t"<<(stored + i)->Manufacture_date.dd<<"/"
+		      	<<(stored + i)->price<<setw(10)<<setw(17)<<(stored + i)->type<<setw(1)<<"\t"<<(stored + i)->Manufacture_date.dd<<"/"
 				<<(stored + i)->Manufacture_date.mm<<"/"<<(stored + i)->Manufacture_date.yy<<setw(4)<<"\t"
 				<<(stored + i)->Expiry_date.dd<<"/"<<(stored + i)->Expiry_date.mm<<"/"<<(stored + i)->Expiry_date.yy<<endl;
 	}
@@ -765,7 +765,7 @@ void place_order(medicine_types *store)
 	int c=0,existance_check=0,order_arr[c];int quan[50],s;
     float amt, damt, total = 0;
     char ch = 'Y';
-    View_store(store);
+    View_store_2(store);
     cout << "\n============================";
     cout << "\n PLACE YOUR ORDER";
     cout << "\n============================\n";
@@ -851,7 +851,6 @@ void Expiry_Notification_Indicator(medicine_types *Medicines){
 			if(current_time.wMonth>Medicines[i].Expiry_date.mm){
 				SetConsoleTextAttribute(font_color,4); n++;
 				Notification_bar();
-			cout<<Medicines[i].ID<<"\t"<<Medicines[i].name<<endl;
 		    }
 
 		    else if(current_time.wMonth==Medicines[i].Expiry_date.mm){
@@ -881,28 +880,29 @@ void Drug_Disposal(medicine_types *store){int z=0;
 	SYSTEMTIME current_time;
 	GetSystemTime (&current_time);
 	HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-	int m=0;
+	int m=0,y=0;
+	y=dd;
 	for(int i=0;i<id;++i){
 		if(current_time.wYear>store[i].Expiry_date.yy){
-			Disposed_Med[m]=store[i]; m++;
+			Disposed_Med[dd]=store[i]; m++;
 			for(int k=i;k<id-1;k++){
 				store[k]=store[k+1];
-			} --i;	id--;
+			} --i;	id--; dd++;
 		}
 		else if(current_time.wYear==store[i].Expiry_date.yy){
 
 			if(current_time.wMonth>store[i].Expiry_date.mm){
-				Disposed_Med[m]=store[i]; m++;
+				Disposed_Med[dd]=store[i]; m++;
 				for(int k=i;k<id-1;k++){
 				store[k]=store[k+1];
-			}--i; id--;
+			}--i; id--;  dd++;
 			}
 			else if(current_time.wMonth==store[i].Expiry_date.mm){
 				if(current_time.wDay>=store[i].Expiry_date.dd){
-					Disposed_Med[m]=store[i]; m++;
+					Disposed_Med[dd]=store[i]; m++;
 					for(int k=i;k<id-1;k++){
 					store[k]=store[k+1];
-					}--i; id--;
+					}--i; id--;  dd++;
 				}
 
 			}
@@ -910,11 +910,10 @@ void Drug_Disposal(medicine_types *store){int z=0;
 		}
 
 	}
-    dd+=m;
 	if(m!=0){
 	SetConsoleTextAttribute(font_color,3);
 	cout<<setw(10)<<"Drug ID"<<setw(12)<<"Name "<<setw(12)<<"quantity"<<setw(10)<<"cost "<<endl;
-	for(int j=0;j<m;j++){
+	for(int j=y;j<dd;j++){
 		if(z%2==0){
 	 		SetConsoleTextAttribute(font_color,5);
 		 }
@@ -1080,4 +1079,5 @@ void Profit_Analysis(medicine_types *store){int z=0;
 	system("pause");
 	SetConsoleTextAttribute(font_color,7);
 }
+
 
