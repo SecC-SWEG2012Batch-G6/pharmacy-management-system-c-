@@ -17,13 +17,13 @@ void Menu(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
         cout<<"+     and See Warnings    			 +"<<endl;
         cout<<"+ 5. Disposed Medicines  			 +"<<endl;
         cout<<"+ 6. Delete a medicine   			 +"<<endl;
-        cout<<"+ 7. Daily total sales 		    	 +"<<endl;
-        cout<<"+ 8. Modify An Entry 		    	 +"<<endl;
+        cout<<"+ 7. Daily total sales 		            	 +"<<endl;
+        cout<<"+ 8. Modify An Entry 		        	 +"<<endl;
         cout<<"+ M. Back to Main Menu    			 +"<<endl;
-        cout<<"+ P. Total profit Vs Total cost   	 +"<<endl;
+        cout<<"+ P. Total profit Vs Total cost   	         +"<<endl;
         cout<<"+ A. About                			 +"<<endl;
         cout<<"+ E. Exit                 			 +"<<endl;
-        cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
+        cout<<"+ + + + + + + + + + + + + + + + + + + + + + + + + +"<<endl;
 	SetConsoleTextAttribute(font_color,7);
 
 }
