@@ -641,4 +641,102 @@
 	
 	}
 	
-	
+	void Update_Med(){  // can be done in other way
+  int M_id;
+  cout<<"Enter the ID of the medicine you are gong to modify:  "; cin>>M_id;
+  Loading_bar();
+     system("cls");
+     ifstream infile("Pharmacy.text");
+     ofstream ofile("newPharmacy.text");
+ 
+     if(infile.is_open()){
+         for(int i=1;i<=id;i++){
+                  infile>>med->ID;
+         infile>>med->name;
+         infile>>med->quantity;
+         infile>>med->price;
+         infile>>med->cost_of_each_drug;
+         infile>>med->number_of_sold;
+                  infile>>med->type;
+                  infile>>med->Manufacture_date.dd;
+                  infile>>med->Manufacture_date.mm;
+                  infile>>med->Manufacture_date.yy;
+                  infile>>med->Expiry_date.dd;
+                  infile>>med->Expiry_date.mm;
+                  infile>>med->Expiry_date.yy;
+                 if(M_id!=med->ID){
+                      if(ofile.is_open()){
+                      ofile<<med->ID<<" ";
+                      ofile<<med->name<<" ";
+                      ofile<<med->quantity<<" ";
+                      ofile<<med->price<<" ";
+                      ofile<<med->cost_of_each_drug<<" ";;
+                      ofile<<med->number_of_sold<<" ";
+                      ofile<<med->type<<" ";
+                      ofile<<med->Manufacture_date.dd<<" ";
+                      ofile<<med->Manufacture_date.mm<<" ";
+                      ofile<<med->Manufacture_date.yy<<" ";
+                      ofile<<med->Expiry_date.dd<<" ";
+                      ofile<<med->Expiry_date.mm<<" ";
+                      ofile<<med->Expiry_date.yy<<" "<<endl;
+                         }
+                         else{
+                             cout<<"New file open failed"<<endl;
+                             break;
+                         }
+                 }
+                 else if(M_id==med->ID){
+                  med->ID=M_id;
+                  cout<<"Enter new drug name: ";
+         cin>>med->name;
+         cout<<"Enter new drug quntity: ";
+         cin>>med->quantity;
+         cout<<"Enter new drug price: ";
+         cin>>med->price;
+         cout<<"Enter new drug cost: ";
+         cin>>med->cost_of_each_drug;
+         med->number_of_sold=0;
+         cout<<"Enter new drug type: ";
+                  cin>>med->type;
+                  cout<<"Enter new Manufactured Date: \n";
+                  cout<<"      Day: ";
+                  cin>>med->Manufacture_date.dd;
+                  cout<<"      Month: ";
+                  cin>>med->Manufacture_date.mm;
+                  cout<<"      Year: ";
+                  cin>>med->Manufacture_date.yy;
+                  cout<<"Enter new Expiry Date: \n";
+                  cout<<"      Day: ";
+                  cin>>med->Expiry_date.dd;
+                  cout<<"      Month: ";
+                  cin>>med->Expiry_date.mm;
+                  cout<<"      Year: ";
+                  cin>>med->Expiry_date.yy;
+                  
+                  ofile<<med->ID<<" ";
+                     ofile<<med->name<<" ";
+                     ofile<<med->quantity<<" ";
+                     ofile<<med->price<<" ";
+                     ofile<<med->cost_of_each_drug<<" ";;
+                     ofile<<med->number_of_sold<<" ";
+                     ofile<<med->type<<" ";
+                     ofile<<med->Manufacture_date.dd<<" ";
+                     ofile<<med->Manufacture_date.mm<<" ";
+                     ofile<<med->Manufacture_date.yy<<" ";
+                     ofile<<med->Expiry_date.dd<<" ";
+                     ofile<<med->Expiry_date.mm<<" ";
+                     ofile<<med->Expiry_date.yy<<" "<<endl; id--;
+             }
+ 
+             }
+         infile.close();
+         ofile.close();
+ 
+         if(remove("Pharmacy.text")==0){
+             cout<<"The old file is removed"<<endl;
+        }
+        else{
+         cout<<"File removing is failed"<<endl;
+        }
+        if(rename("newPharmacy.text","Pharmacy.text")==0){
+            cout<<"The new file is renamed"<<end
