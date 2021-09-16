@@ -740,3 +740,71 @@
         }
         if(rename("newPharmacy.text","Pharmacy.text")==0){
             cout<<"The new file is renamed"<<end
+
+void Dispose_Med(){
+  int n,temp;
+  SYSTEMTIME current_time;
+  GetSystemTime (&current_time);
+     HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+     ifstream infile("Pharmacy.text");
+     if(infile.is_open()){
+     cout.setf(ios_base::left);
+     ofstream outfile("Deleted.text",ios::app);
+  for(int i=0;i<id;i++){
+               infile>>med->ID;
+         infile>>med->name;
+         infile>>med->quantity;
+         infile>>med->price;
+         infile>>med->cost_of_each_drug;
+         infile>>med->number_of_sold;
+                  infile>>med->type;
+                  infile>>med->Manufacture_date.dd;
+                  infile>>med->Manufacture_date.mm;
+                  infile>>med->Manufacture_date.yy;
+                  infile>>med->Expiry_date.dd;
+                  infile>>med->Expiry_date.mm;
+                  infile>>med->Expiry_date.yy;
+   if(current_time.wYear>med->Expiry_date.yy){
+    temp=med->ID;
+    if(outfile.is_open()){
+    outfile<<med->ID<<" "<<med->name<<" "<<med->quantity<<" "<<med->price<<" "<<med->cost_of_each_drug<<" "<<med->number_of_sold<<" "<<med->type<<" "
+           <<med->Manufacture_date.dd<<" "<<med->Manufacture_date.mm<<" "<<med->Manufacture_date.yy<<" "<<med->Expiry_date.dd<<" "
+        <<med->Expiry_date.mm<<" "<<med->Expiry_date.yy<<endl;
+   }
+    Delete_Med(temp);
+   }
+ 
+   else if(current_time.wYear==med->Expiry_date.yy){
+ 
+    if(current_time.wMonth>med->Expiry_date.mm){
+     temp=med->ID;
+     if(outfile.is_open()){
+     outfile<<med->ID<<" "<<med->quantity<<" "<<med->price<<" "<<med->cost_of_each_drug<<" "<<med->number_of_sold<<" "
+           <<med->Manufacture_date.dd<<" "<<med->Manufacture_date.mm<<" "<<med->Manufacture_date.yy<<" "<<med->Expiry_date.dd<<" "
+        <<med->Expiry_date.mm<<" "<<med->Expiry_date.yy<<endl;
+    }
+    Delete_Med(temp);
+       }
+ 
+       else if(current_time.wMonth==med->Expiry_date.mm){
+ 
+         if(current_time.wDay>=med->Expiry_date.dd){
+          temp=med->ID;
+       if(outfile.is_open()){
+       outfile<<med->ID<<" "<<med->quantity<<" "<<med->price<<" "<<med->cost_of_each_drug<<" "<<med->number_of_sold<<" "
+              <<med->Manufacture_date.dd<<" "<<med->Manufacture_date.mm<<" "<<med->Manufacture_date.yy<<" "<<med->Expiry_date.dd<<" "
+           <<med->Expiry_date.mm<<" "<<med->Expiry_date.yy<<endl;
+      }
+    Delete_Med(temp);
+         }
+    }
+   }
+  }
+ infile.close();
+ outfile.close();
+     }
+     else
+         cout<<"File open failed"<<endl;
+  
+  
+ }
