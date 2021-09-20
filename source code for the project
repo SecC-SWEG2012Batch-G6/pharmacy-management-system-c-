@@ -915,3 +915,133 @@ void Expiry_Notification_Indicator(vector<medicine_types> &Medicines){
         View_store(store);
 
   }
+
+
+void To_Buy_Medicine(vector<medicine_types> &store){
+    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+   char ch;
+   vector<sale> sale_rec_temp;
+   sale order;
+   int c=0,quant,date,month,year,order_arr[c],existance_check=0,z=0;
+   cout<<"Dear customer please enter the required infotmations carefully."<<endl<<endl;
+   cout<<"Enter your name: "; cin>>order.customer_name;
+   cout<<"Date by separating by space as (dd mm yyyy): ";
+            cin>>order.sale_date.dd>>order.sale_date.mm
+               >>order.sale_date.yy;
+   system("cls");
+   View_store(store);
+   system("pause");
+
+    do{
+        order.customer_id=++dd;
+        label1:
+        cout<<"Enter the id of the medicine: "; cin>>order.med_id;
+        for(int i=0;i<store.size();i++){
+           if(order.med_id==store[i].ID){
+              label2:
+              existance_check++;
+            cout << "\nQuantity in number : ";
+            cin>>order.quantity_sold;
+            if(order.quantity_sold>store[i].quantity){
+              cout<<"Beyond the amount in the store please enter again!!!"<<endl;goto label2;
+        }
+        order.m_price=store[i].price;
+        order.med_name=store[i].name;
+        order.cost=store[i].cost_of_each_drug;
+            store[i].number_of_sold+=order.quantity_sold;
+            store[i].quantity=store[i].quantity-order.quantity_sold;
+                sale_rec_temp.push_back(order);
+                sale_history.push_back(order);
+               }
+
+     }
+
+       if(existance_check==0)
+       {cout<<"Medicine with this ID is doesn't exist!!!,"
+                 <<"enter again: "<<endl;
+                 goto label1;
+                    system("cls");
+             }
+        c++;
+        cout << "\nDo You Want To Order Another Medicene ? (y/n)";
+        cin >> ch;
+    }while(ch=='y' || ch=='Y');
+    system("cls");
+    SetConsoleTextAttribute(font_color,3);
+  cout<<"|--------------------------------------------|"<<endl;
+  cout<<"\n|Thank you for visiting,Have A Nice Time!!!  |"<<endl<<endl;
+  cout<<"|--------------------------------------------|"<<endl;
+  SetConsoleTextAttribute(font_color,7);
+  float amount,total=0;
+  if(!sale_rec_temp.empty()){
+    cout.setf(ios_base::left);
+    cout<<setw(8)<<"Cust_id"<<setw(17)<<"Cust_name"<<setw(10)<<"Med_id"<<setw(19)<<"Med_name"<<setw(8)<<"Price"
+        <<setw(12)<<"Quntity"<<setw(16)<<"Sale date"<<setw(7)<<"Bill value"<<endl;
+
+    for(int i=0;i<c;i++){
+            if(z%2==0){
+         SetConsoleTextAttribute(font_color,5);
+       }
+       else{
+         SetConsoleTextAttribute(font_color,3);
+       }
+       z++;
+     amount=sale_rec_temp[i].m_price*sale_rec_temp[i].quantity_sold;
+     total+=amount;
+     cout.setf(ios_base::left);
+     cout << setw(9)<< sale_rec_temp[i].customer_id<<setw(18) << sale_rec_temp[i].customer_name<<setw(8)
+          << sale_rec_temp[i].med_id << setw(19) << sale_rec_temp[i].med_name<<setw(11)
+          << sale_rec_temp[i].m_price<<setw(8)<<sale_rec_temp[i].quantity_sold<<setw(2)<<"\t"<<left<<sale_rec_temp[i].sale_date.dd<<"/"
+          <<sale_rec_temp[i].sale_date.mm<<"/"<<sale_rec_temp[i].sale_date.yy<<"\t"<<setw(4)<<amount<<endl;
+  }
+  cout<<"\n\t\t\t\t\t\t\t\t Total bill = "<<total<<endl;
+  cout<<"\n\n";
+  }
+  else{
+    cout<<"NO sale is recorded"<<endl;
+  }
+}
+
+
+void Total_sales_table(vector<medicine_types> &store){
+        int z=0,m;
+    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+    int check=0;
+    float Total_Daily_sale=0;
+    if(!sale_history.empty()){
+    cout<<"The daily total sales summary is as shown below"<<endl<<endl;
+    cout<<"---------------------------------------------------"<<endl;
+    cout<<"---------------------------------------------------"<<endl;
+    cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
+        <<"selling_Price"<<setw(14)<<"Total_sales"<<setw(5)<<endl;
+
+for(int k=0;k<sale_history.size();k++){
+       if(z%2==0){
+         SetConsoleTextAttribute(font_color,5);
+       }
+       else{
+         SetConsoleTextAttribute(font_color,3);
+       }
+       z++;
+            cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
+                         <<sale_history[k].med_name<<setw(13)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].m_price<<setw(12)
+                         <<setw(15)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)<<setw(10)<<endl;
+            Total_Daily_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
+     }
+
+    cout<<"---------------------------------------------------"<<endl;
+    cout<<"---------------------------------------------------"<<endl;
+    cout<<"The daily total sale in Birr = "<<Total_Daily_sale<<endl;
+    }
+
+    else {SetConsoleTextAttribute(font_color,1);
+
+      cout<<"        ------------------------"<<endl;
+      cout<<"        ------------------------"<<endl;
+      cout<<"------------- There is no sale record -------------"<<endl;
+      cout<<"        ------------------------"<<endl;
+      cout<<"        ------------------------"<<endl;
+    }
+
+  SetConsoleTextAttribute(font_color,7);
+  }
