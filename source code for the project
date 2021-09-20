@@ -345,3 +345,315 @@
 	void Delete_All(vector<medicine_types> &store){
 		store.clear();id=0;
 	}
+	
+	void Store_Drug (vector<medicine_types> &medicine){
+	int k,num_of_med;
+	medicine_types med;
+		cout<<"Do you want to continue with the default stack or you want to enter from scratch?1/0"<<endl;
+		cin>>k;
+		Loading_bar();
+		system("cls");
+		cout<<"How many number of medicine you are going to store"<<endl;
+		cin>>num_of_med;
+		Loading_bar();
+		system("cls");
+		switch(k){
+
+		case 1:
+		{
+			cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
+			for(int i=0;i<num_of_med;++i){
+			    med.ID=id+1;
+				cout<<"Drug ID: "<<med.ID<<endl;
+				cin.ignore();
+				cout<<"Enter Drug Name: "; getline(cin,med.name);
+				cin.ignore();
+				cout<<"Enter the quantity of this medicine: ";
+				labe20:
+				cin>>med.quantity;
+				if(med.quantity<0){
+					cout<<"No such Quantity,enter again "; goto labe20;
+				}
+				cin.ignore();
+				cout<<"Enter Price: ";
+				label21:
+				cin>>med.price;
+				if(med.price<0){
+					cout<<"Price can't be negative,enter again "; goto label21;
+				}
+				cout<<"Enter Cost: ";
+				label22:
+				cin>>med.cost_of_each_drug;
+				if(med.cost_of_each_drug<0){
+					cout<<"Negative value is noallowed,enter again "; goto label22;
+				}
+				cin.ignore();
+				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med.type;
+				cin.ignore();
+				cout<<"Enter Manufactured Date: \n";
+				label3:
+				cout<<"      Day: "; cin>>med.Manufacture_date.dd;
+				if(med.Manufacture_date.dd>31 || med.Manufacture_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto label3;
+				}
+				label4:
+				cout<<"      Month: "; cin>>med.Manufacture_date.mm;
+				if(med.Manufacture_date.mm>12 || med.Manufacture_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label4;
+				}
+				label5:
+				cout<<"      Year: "; cin>>med.Manufacture_date.yy;
+				if(med.Manufacture_date.yy<2000){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto label5;
+				}
+				label6:
+				cout<<"Enter Expiry Date: \n";
+				cout<<"      Day: "; cin>>med.Expiry_date.dd;
+				if(med.Expiry_date.dd>31 || med.Expiry_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto label6;
+				}
+				label7:
+				cout<<"      Month: "; cin>>med.Expiry_date.mm;
+				if(med.Expiry_date.mm>12 || med.Expiry_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto label7;
+				}
+				label8:
+				cout<<"      Year: "; cin>>med.Expiry_date.yy;
+				if(med.Expiry_date.yy<2000){
+					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+					goto label8;
+				}
+				id++; cout<<"\n\n";
+				Loading_bar();
+            medicine.push_back(med);
+			}
+		} break;
+
+		default:
+		Delete_All(medicine);
+		   {
+		cout<<"\n Enter the necessary informations for the drug you want to store!!!"<<endl;
+
+			for(int i=0;i<num_of_med;++i){
+			    med.ID=i+1;
+				cout<<"Drug ID: "<<med.ID<<endl;
+				cin.ignore();
+				cout<<"Enter Drug Name: "; getline(cin,med.name);
+				cin.ignore();
+				cout<<"Enter the quantity of this medicine: ";
+				labe_1:
+				cin>>med.quantity;
+				if(med.quantity<0){
+					cout<<"No such Quantity,enter again "; goto labe_1;
+				}
+				cin.ignore();
+				cout<<"Enter Price: ";
+				labe_2:
+				cin>>med.price;
+				if(med.price<0){
+					cout<<"Price can't be negative,enter again "; goto labe_2;
+				}
+				cout<<"Enter Cost: ";
+				labe_3:
+				cin>>med.cost_of_each_drug;
+				if(med.cost_of_each_drug<0){
+					cout<<"Negative value is noallowed,enter again "; goto labe_3;
+				}
+				cin.ignore();
+				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med.type;
+				cin.ignore();
+				cout<<"Enter Manufactured Date: \n";
+				labe_4:
+				cout<<"      Day: "; cin>>med.Manufacture_date.dd;
+				if(med.Manufacture_date.dd>31 || med.Manufacture_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto labe_4;
+				}
+				labe_5:
+				cout<<"      Month: "; cin>>med.Manufacture_date.mm;
+				if(med.Manufacture_date.mm>12 || med.Manufacture_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto labe_5;
+				}
+				labe_6:
+				cout<<"      Year: "; cin>>med.Manufacture_date.yy;
+				if(med.Manufacture_date.yy<2000){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto labe_6;
+				}
+				labe_7:
+				cout<<"Enter Expiry Date: \n";
+				cout<<"      Day: "; cin>>med.Expiry_date.dd;
+				if(med.Expiry_date.dd>31 || med.Expiry_date.dd<1){
+					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+					goto labe_7;
+				}
+				labe_8:
+				cout<<"      Month: "; cin>>med.Expiry_date.mm;
+				if(med.Expiry_date.mm>12 || med.Expiry_date.mm<1){
+					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+					goto labe_8;
+				}
+				labe_9:
+				cout<<"      Year: "; cin>>med.Expiry_date.yy;
+				if(med.Expiry_date.yy<2000){
+					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+					goto labe_9;
+				}
+				id=med.ID;
+				Loading_bar();
+                medicine.push_back(med);
+			}
+
+		} break;
+
+	}
+   Write_to_File(medicine,"Pharmacy.txt");
+	}
+
+void View_store(vector<medicine_types> &stored){
+    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+	int m=0;
+        system("cls");
+
+	  cout<<"The database of the medicine in the store is as shown below"<<endl;
+	  cout<<"-----------------------------------------------------------------"<<endl;
+	  cout<<"-----------------------------------------------------------------"<<endl;
+	  SetConsoleTextAttribute(font_color,3);
+	  cout<<setw(8)<<"Med.ID"<<setw(17)<<"Med. Name"<<setw(10)<<"Quant."<<setw(10)<<"Price"<<setw(10)<<"cost"<<setw(20)<<"Drug type"
+	  	  <<setw(17)<<"Manufac.date"<<setw(15)<<"Expiry date"<<endl;
+
+	   		cout.setf(ios_base::left);
+			for(int i=0;i<stored.size();++i){
+				if(m%2==0){
+					SetConsoleTextAttribute(font_color,8);
+				}
+				else{
+					SetConsoleTextAttribute(font_color,2);
+				}
+				m++;
+			    cout<<setw(8)<<stored[i].ID<<setw(17)<<stored[i].name<<setw(10)<<stored[i].quantity<<setw(10)
+			      	<<stored[i].price<<setw(10)<<stored[i].cost_of_each_drug<<setw(18)<<stored[i].type<<" "<<setw(1)
+			      	<<stored[i].Manufacture_date.dd<<"/"
+					<<stored[i].Manufacture_date.mm<<"/"<<stored[i].Manufacture_date.yy
+					<<setw(6)<<"\t"<<stored[i].Expiry_date.dd<<"/"<<stored[i].Expiry_date.mm<<"/"<<stored[i].Expiry_date.yy<<endl;
+			}
+		cout<<"-----------------------------------------------------------------"<<endl;
+	    cout<<"-----------------------------------------------------------------"<<endl;
+	    if(m==0){
+            cout<<"The drug store is empty"<<endl;
+	    }
+	}
+
+
+void check_stack(vector<medicine_types> &Med_stack){
+		HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+		int m=0;
+		system("cls");
+		cout<<"Do you want to see the total or partial stack for specific medicine?1/0:__";
+		int stack_choice,c=0;
+		cin>>stack_choice;
+		Loading_bar();
+		system("cls");
+		if(stack_choice==1){
+
+			cout.setf(ios_base::left);
+			SetConsoleTextAttribute(font_color,2);
+			cout<<setw(8)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(13)<<"quantity"<<setw(10)<<"price"<<endl;
+			SetConsoleTextAttribute(font_color,7);
+			for(int i=0;i<Med_stack.size();++i){
+				if(m%2==0){
+					SetConsoleTextAttribute(font_color,6);
+				}
+				else{
+					SetConsoleTextAttribute(font_color,8);
+				}
+				m++;
+				cout<<setw(10)<<Med_stack[i].ID<<setw(18)<<Med_stack[i].name<<setw(11)<<Med_stack[i].quantity<<setw(10)<<Med_stack[i].price<<endl;
+
+			}
+		}
+
+		else{ int Med_ID,what;
+		    string name,temp;
+		    cout<<"Do you want to search by ID or Name of the medicine: (1 for id, 2 for name): "; cin>>what;
+		    switch(what){
+            case 1:
+            {
+            cout<<"Enter the ID of the medicine you want to see:  ";
+			back:
+			cin>>Med_ID;
+			Loading_bar();
+			system("cls");
+			cout.setf(ios_base::left);
+			for(int i=0;i<Med_stack.size();++i)
+				{
+					if(Med_ID==Med_stack[i].ID)
+					{
+					c++;
+					}
+				}
+			if(c!=0){
+				system("color 2");
+				cout<<setw(10)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(10)<<"quantity"<<setw(10)<<"price"<<endl;
+				SetConsoleTextAttribute(font_color,9);
+				for(int k=0;k<Med_stack.size();++k){
+						if(Med_ID==Med_stack[k].ID){
+							cout<<setw(10)<<Med_stack[k].ID<<setw(18)<<Med_stack[k].name<<setw(13)<<Med_stack[k].quantity<<setw(15)<<Med_stack[k].price<<endl;
+						}
+					}
+			}
+			else {
+			cout<<"The ID you entered don't have any match in our store. Enter again: ";
+			goto back;
+			}
+			SetConsoleTextAttribute(font_color,7);
+            }
+			break;
+			case 2:
+               {
+                   again:
+                cout<<"Enter the name of the medicine: ";
+                cin>>name;
+                Loading_bar();
+                system("cls");
+                cout.setf(ios_base::left);
+                for(int i=0;i<Med_stack.size();++i)
+                    {
+                        temp=Med_stack[i].name;
+                             for(int i=0;i<temp.size();i++){
+                                temp[i]=toupper(temp[i]);
+                             }
+                             for(int i=0;i<name.size();i++){
+                                name[i]=toupper(name[i]);
+                             }
+                        if(name==temp)
+                        { c++;
+                        system("color 2");
+                            cout<<setw(10)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(10)<<"quantity"<<setw(10)<<"price"<<endl;
+                            SetConsoleTextAttribute(font_color,9);
+                                if(name==temp){
+                                    cout<<setw(10)<<Med_stack[i].ID<<setw(18)<<Med_stack[i].name<<setw(13)<<Med_stack[i].quantity<<setw(15)<<Med_stack[i].price<<endl;
+
+                            }
+
+                        }
+                    }
+             if(c==0){
+                cout<<"Sorry I can't found the medicine name you entered"<<endl;
+            }
+
+			    }break;
+            }
+
+		SetConsoleTextAttribute(font_color,7);
+
+		}
+
+}
+
