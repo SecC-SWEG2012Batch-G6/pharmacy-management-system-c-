@@ -856,3 +856,62 @@ void Expiry_Notification_Indicator(vector<medicine_types> &Medicines){
     }
 
   }
+
+ void Drug_Disposal(vector<medicine_types> &store){
+      int m=0,z=0,y;
+      vector<medicine_types> Expired;
+    SYSTEMTIME current_time;
+    GetSystemTime (&current_time);
+    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+    for(int i=0;i<store.size();++i){
+      if(current_time.wYear>store[i].Expiry_date.yy){
+        Disposed_med.push_back(store[i]); m++;
+        Expired.push_back(store[i]);
+        delete_entry(store,store[i].ID);
+        Write_to_File(store,"Pharmacy.txt");
+      }
+      else if(current_time.wYear==store[i].Expiry_date.yy){
+   Disposed_med.push_back(store[i]); m++;
+          Expired.push_back(store[i]);
+          delete_entry(store,store[i].ID);
+          Write_to_File(store,"Pharmacy.txt");
+        }
+        else if(current_time.wMonth==store[i].Expiry_date.mm){
+          if(current_time.wDay>=store[i].Expiry_date.dd){
+            Disposed_med.push_back(store[i]); m++;
+            Expired.push_back(store[i]);
+            store.erase(store.begin() + i);
+            Write_to_File(store,"Pharmacy.txt");
+          }
+
+        }
+
+      }
+    }
+
+        if(m!=0){
+    SetConsoleTextAttribute(font_color,3);
+    cout<<setw(10)<<"Drug ID"<<setw(12)<<"Name "<<setw(12)<<"quantity"<<setw(10)<<"cost "<<endl;
+    for(int y=0;y<Expired.size();y++){
+      if(z%2==0){
+         SetConsoleTextAttribute(font_color,5);
+       }
+       else{
+         SetConsoleTextAttribute(font_color,3);
+       }
+       z++;
+        cout<<setw(10)<<Expired[y].ID<<setw(15)<<Expired[y].name<<setw(12)<<Expired[y].quantity<<setw(7)
+             <<Expired[y].cost_of_each_drug<<endl;
+      }
+
+    }
+
+    else{
+            cout<<"-------------------------------"<<endl;
+        cout<<"| No expired drug is detected |"<<endl;
+            cout<<"-------------------------------"<<endl;
+    }
+        system("pause");
+        View_store(store);
+
+  }
