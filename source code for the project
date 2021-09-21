@@ -1,1248 +1,1319 @@
-	#include <iostream>
-	#include <fstream>
-	#include <iomanip>
-	#include <string>
-	#include <windows.h>
-	#include <cstdlib>
-	using namespace std;
-	
-	void Menu(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(font_color,11);
-	
-	        cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
-	        cout<<"+ What do you want to do? 	  		 +"<<endl;
-	        cout<<"+ 1. Update drug store   		 	 +"<<endl;
-	        cout<<"+ 2. View drug store     			 +"<<endl;
-	        cout<<"+ 3. View drug stack     			 +"<<endl;
-	        cout<<"+ 4. Modify An Entry      			 +"<<endl;
-	        cout<<"+ 5. Delete a medicine   			 +"<<endl;
-	        cout<<"+ 6. Disposed Medicines  			 +"<<endl;
-	        cout<<"+ 7. Daily total sales 		    	 +"<<endl;
-	        cout<<"+ M. Back to Main Menu    			 +"<<endl;
-	        cout<<"+ P. Total profit Vs Total cost   	 +"<<endl;
-	        cout<<"+ A. About                			 +"<<endl;
-	        cout<<"+ E. Exit                 			 +"<<endl;
-	        cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
-		SetConsoleTextAttribute(font_color,7);
-	
-	}
-	void About(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(font_color,6);
-		cout<<"This system is designed to handle the transactons of a pharmacy medical store managemet.\n"
-		    <<"It is straight forward since it has a specified descriptive heading  for each task except \n"
-			<<"one thing,which is sometimes at the time of run you may look a red lightning,which indicates\n"
-			<<"that,there is a drug in the store that has been expired and need to be disposed."<<endl;
-	}
-	 int id=9;
-	struct Date{
-	    int dd,mm,yy;
-	};
-	
-	struct medicine_types{
-	int ID,quantity,number_of_sold;
-	float price,cost_of_each_drug;
-	string name;
-	Date Manufacture_date,Expiry_date;
-	string type;
-	
-	};
-	
-	medicine_types *med=new medicine_types;
-	void read_write(medicine_types myMed[],char file[],int ch=1);
-	void Store_Drug();
-	void store_initializer();
-	void View_store();
-	void check_stack();
-	void Expiry_Notification_Indicator();
-	void Notification_bar();
-	void Delete_Med(int M_id);
-	void Update_Med();
-	void Dispose_Med();
-	
-	
-	void Loading_bar(){
-		system("color 02");
-		cout<<"\n\n\n\n Loading";
-		char x=219;
-	
-		for(int i=0;i<60;i++){
-			Sleep(5);
-			cout<<x;
-		}
-		system("color 07");
-		cout<<endl<<endl;
-	}
-	
-	int main(){
-	    Loading_bar();
-		med->number_of_sold=0;
-	    int idd;
-		HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-		system("cls");
-		SetConsoleTextAttribute(font_color,10);
-		cout<<"                    ---------------------------------------"<<endl;
-		cout<<"                    ---------------------------------------"<<endl;
-	    cout<<"--------------------|Welcome to Our Pharmacy store Program| --------------------"<<endl;
-	    cout<<"                    ---------------------------------------"<<endl;
-		cout<<"                    ---------------------------------------"<<endl;
-		SetConsoleTextAttribute(font_color,7);
-		int c;
-		cout<<"Do you want to inialize the store?..."; cin>>c;
-		if(c==1){
-			store_initializer();
-		}
-	
-	 	do{char choice;
-	 	Expiry_Notification_Indicator();
-	         system("cls");
-	 	   Menu();
-	 	   input:
-	         cout<<"Enter your choice here: "; cin>>choice;
-		   switch(choice){
-		       case '1': Loading_bar();
-	                     system("cls");
-		   	     	     Store_Drug();
-	           break;
-	  	       case '2': Loading_bar();
-	                     system("cls");
-	                     View_store();
-	  	     	    	 system("pause");
-	   	       break;
-	   	       case '3':Loading_bar();
-	                    system("cls");
-	                    check_stack();
-	                    system("pause");
-	           break;
-	           case '4':Loading_bar();
-	                    system("cls");
-	                    Update_Med();
-	                    system("pause");
-	           break;
-	           case '5':Loading_bar();
-	                    system("cls");
-	                    cout<<"Enter medicine id: "; cin>>idd;
-	                    Delete_Med(idd);
-	                    system("pause");
-	           break;
-	           case '6':Loading_bar();
-	                    system("cls");
-			   			Dispose_Med();
-			   			View_store();
-			   			system("pause");
-			   break;
-	   	       case 'a':
-	           case 'A':Loading_bar();
-	                    system("cls");
-	                    About();
-	                    system("pause");
-	           break;
-	   	       case 'e':
-	           case 'E': Loading_bar();
-		           	    cout<<"You choose to exit!!!"<<endl;
-		           	    exit(0);
-		       default: cout<<"Incorrect choice try again"<<endl; goto input;
-		   }
-	
-		 }while(true);
-	
-	
-	
-	
-	}  ///End of main function
-	
-	
-	void Notification_bar(){
-		system("color 04");
-		cout<<"\t\t\t\t\nYou have expired drugs...";
-		char x=219;
-		for(int i=0;i<40;i++){
-			cout<<x;
-			Sleep(2);
-		}
-		system("color 07");
-		Sleep(5);
-		cout<<endl;
-	
-	}
-	
-	void read_write(medicine_types myMed[],char file[],int ch){
-	if(ch==1){
-		ofstream ofile(file);
-		if(ofile.is_open()){
-			for(int i=0;i<id;i++){
-		ofile<<myMed[i].ID<<" ";
-		ofile<<myMed[i].name<<" ";
-		ofile<<myMed[i].quantity<<" ";
-		ofile<<myMed[i].price<<" ";
-		ofile<<myMed[i].cost_of_each_drug<<" ";
-		ofile<<myMed[i].number_of_sold<<" ";
-		ofile<<myMed[i].type<<" ";
-		ofile<<myMed[i].Manufacture_date.dd<<" ";
-		ofile<<myMed[i].Manufacture_date.mm<<" ";
-		ofile<<myMed[i].Manufacture_date.yy<<" ";
-		ofile<<myMed[i].Expiry_date.dd<<" ";
-		ofile<<myMed[i].Expiry_date.mm<<" ";
-		ofile<<myMed[i].Expiry_date.yy<<" ";
-		}
-		
-	}
-	else{
-		cout<<"open failed"<<endl;
-	}
-	
-	}
-	else{
-		ifstream infile(file);
-		if(infile.is_open()){
-			for(int i=0;i<id;i++){
-		infile>>myMed[i].ID;
-		infile>>myMed[i].name;
-		infile>>myMed[i].quantity;
-		infile>>myMed[i].price;
-		infile>>myMed[i].cost_of_each_drug;
-		infile>>myMed[i].number_of_sold;
-		infile>>myMed[i].type;
-		infile>>myMed[i].Manufacture_date.dd;
-		infile>>myMed[i].Manufacture_date.mm;
-		infile>>myMed[i].Manufacture_date.yy;
-		infile>>myMed[i].Expiry_date.dd;
-		infile>>myMed[i].Expiry_date.mm;
-		infile>>myMed[i].Expiry_date.yy;
-	}
-	}
-	}
-}
-	
-	void store_initializer(){
-		ofstream ofile("Pharmacy.text");
-		ofile<<1<<" "<<"paracetamol"<<" "<<205<<" "<<" "<<55.67<<" "<<23.50<<" "<<0
-		     <<" "<<"antibiotic"<<" "<<12<<" "<<12<<" "<<2020<<" "<<11<<" "<<11<<" "
-		     <<2022<<" "<<endl;
-	      ofile<<2<<" "<<"Humalog"<<" "<<30<<" "<<" "<<100.67<<" "<<56.50<<" "<<0
-		     <<" "<<"anti-diabetic"<<" "<<12<<" "<<12<<" "<<2018<<" "<<11<<" "<<11<<" "
-		     <<2022<<" "<<endl;
-	      ofile<<3<<" "<<"Aspirin"<<" "<<125<<" "<<150.67<<" "<<67.50<<" "<<0
-		     <<" "<<"antibiotic"<<" "<<12<<" "<<12<<" "<<2020<<" "<<11<<" "<<11<<" "
-		     <<2022<<" "<<endl;
-	      ofile<<4<<" "<<"Vicks_Formula_44"<<" "<<256<<" "<<" "<<150.67<<" "<<91.50<<" "<<0
-		     <<" "<<"anti-tussive"<<" "<<12<<" "<<12<<" "<<2016<<" "<<11<<" "<<11<<" "
-		     <<2020<<" "<<endl;
-	      ofile<<5<<" "<<"Xyzal"<<" "<<100<<" "<<" "<<89.67<<" "<<23.50<<" "<<0
-		     <<" "<<"anti-histamine"<<" "<<1<<" "<<10<<" "<<2020<<" "<<11<<" "<<11<<" "
-		     <<2021<<" "<<endl;
-	      ofile<<6<<" "<<"Nexplanon"<<" "<<200<<" "<<" "<<110.67<<" "<<68.50<<" "<<0
-		     <<" "<<"contraceptives"<<" "<<24<<" "<<12<<" "<<2020<<" "<<10<<" "<<8<<" "
-		     <<2022<<" "<<endl;
-	      ofile<<7<<" "<<"Meclizine"<<" "<<166<<" "<<" "<<135.67<<" "<<78.50<<" "<<0
-		     <<"antibiotic"<<" "<<8<<" "<<9<<" "<<2009<<" "<<11<<" "<<11<<" "
-		     <<2018<<" "<<endl;
-	      ofile<<8<<" "<<"Afrin"<<" "<<90<<" "<<" "<<55.67<<" "<<23.50<<" "<<0
-		     <<" "<<"anti-septic"<<" "<<6<<" "<<12<<" "<<2017<<" "<<11<<" "<<11<<" "
-		     <<2024<<" "<<endl;
-	      ofile<<9<<" "<<"Lisinoprril"<<" "<<205<<" "<<" "<<55.67<<" "<<23.50<<" "<<0
-		     <<" "<<"anti-hyper"<<" "<<12<<" "<<12<<" "<<2020<<" "<<11<<" "<<11<<" "
-		     <<2022<<" "<<endl;
-		ofile.close();
-	}
-	
-	
-	
-	
-	void Store_Drug (){
-	    medicine_types Med;
-		int k,num_of_med;
-		cout<<"Do you want to continue with the default stack or you want to enter from scratch?1/0"<<endl;
-		cin>>k;
-		Loading_bar();
-		system("cls");
-		cout<<"How many number of medicine you are going to store"<<endl;
-		cin>>num_of_med;
-		Loading_bar();
-		system("cls");
-		switch(k){
-	
-		case 1:
-		{	ofstream file("Pharmacy.text",ios::app);
-			cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
-			for(int i=0;i<num_of_med;++i){
-				system("cls");
-			      Med.ID=id+1;
-				cout<<"Drug ID: "<<Med.ID<<endl;
-				file<<Med.ID<<" ";
-				cin.ignore();
-				cout<<"Enter Drug Name: "; getline(cin,Med.name);
-				file<<Med.name<<" ";
-				cin.ignore();
-				cout<<"Enter the quantity of this medicine: ";
-				labe20:
-	            cin.ignore();
-				cin>>Med.quantity;
-				if(med->quantity<=0){
-					cout<<"No such Quantity,enter again "; goto labe20;
-				}
-				file<<Med.quantity<<" ";
-				cout<<"Enter Price: ";
-				label21:
-				cin>>Med.price;
-				if(Med.price<0){
-					cout<<"Price can't be negative,enter again "; goto label21;
-				}
-				file<<Med.price<<" ";
-				cout<<"Enter Cost: ";
-				label22:
-				cin>>Med.cost_of_each_drug;
-				if(Med.price<0){
-					cout<<"Negative value is not allowed,enter again "; goto label22;
-				}
-				file<<Med.cost_of_each_drug<<" ";
-				Med.number_of_sold=0;
-				file<<Med.number_of_sold<<" ";
-				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>Med.type;
-				file<<Med.type<<" ";
-				cin.ignore();
-				cout<<"Enter Manufactured Date: \n";
-				label3:
-				cout<<"      Day: "; cin>>Med.Manufacture_date.dd;
-				if(Med.Manufacture_date.dd>31 || Med.Manufacture_date.dd<1){
-					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
-					goto label3;
-				}
-				file<<Med.Manufacture_date.dd<<" ";
-				label4:
-				cout<<"      Month: "; cin>>Med.Manufacture_date.mm;
-				if(Med.Manufacture_date.mm>12 || Med.Manufacture_date.mm<1){
-					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
-					goto label4;
-				}
-				file<<Med.Manufacture_date.mm<<" ";
-				label5:
-				cout<<"      Year: "; cin>>Med.Manufacture_date.yy;
-				if(Med.Manufacture_date.yy<2000 && Med.Manufacture_date.yy>2100){
-					cout<<"Incorrect year out of bound enter again(2000-)!!!"<<endl;
-					goto label5;
-				}
-				file<<Med.Manufacture_date.yy<<" ";
-				label6:
-				cout<<"Enter Expiry Date: \n";
-				cout<<"      Day: "; cin>>Med.Expiry_date.dd;
-				if(Med.Expiry_date.dd>31 || Med.Expiry_date.dd<1){
-					cout<<"Incorrect date out of bound enter again(2000-)!!!"<<endl;
-					goto label6;
-				}
-				file<<Med.Expiry_date.dd<<" ";
-				label7:
-				cout<<"      Month: "; cin>>Med.Expiry_date.mm;
-				if(Med.Expiry_date.mm>12 || Med.Expiry_date.mm<1){
-					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
-					goto label7;
-				}
-				file<<Med.Expiry_date.mm<<" ";
-				label8:
-				cout<<"      Year: "; cin>>Med.Expiry_date.yy;
-				if(Med.Expiry_date.yy<2000){
-					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
-					goto label8;
-				}
-				file<<Med.Expiry_date.yy<<endl;
-				id++; cout<<"\n\n";
-				Loading_bar();
-	
-			}
-	
-			file.close();
-		} break;
-	
-		default:
-		   {
-		   	ofstream out_to_file("Pharmacy.text",ios::trunc);
-			id=0;
-		cout<<"\n Enter the necessary informations for the drug you want to store!!!"<<endl;
-	
-			for(int i=0;i<num_of_med;++i){
-			    Med.ID=i+1;
-				cout<<"Drug ID: "<<Med.ID<<endl;
-				cin.ignore();
-				cout<<"Enter Drug Name: "; getline(cin,Med.name);
-				cout<<"Enter the quantity of this medicine: ";
-				labe23:
-	            cin.ignore();
-				cin>>Med.quantity;
-				if(Med.quantity<=0){
-					cout<<"No such Quantity,enter again "; goto labe23;
-				}
-				cout<<"Enter Price: ";
-				label24:
-	            cin.ignore();
-				cin>>Med.price;
-				if(Med.price<0){
-					cout<<"Price can't be negative,enter again "; goto label24;
-				}
-				cout<<"Enter Cost: ";
-				label25:
-	            cin.ignore();
-				cin>>Med.cost_of_each_drug;
-				if(Med.cost_of_each_drug<0){
-					cout<<"Negative value is noallowed,enter again "; goto label25;
-				}
-				cin.ignore();
-				cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): ";getline(cin,Med.type);
-				cin.ignore();
-				cout<<"Enter Manufactured Date: \n";
-				label9:
-				cout<<"      Day: "; cin>>Med.Manufacture_date.dd;
-				if(Med.Manufacture_date.dd>31 || Med.Manufacture_date.dd<1){
-					cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
-					goto label9;
-				}
-				label_10:
-				cout<<"      Month: "; cin>>Med.Manufacture_date.mm;
-				if(Med.Manufacture_date.mm>12 || Med.Manufacture_date.mm<1){
-					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
-					goto label_10;
-				}
-				label_11:
-				cout<<"      Year: "; cin>>Med.Manufacture_date.yy;
-				if(Med.Manufacture_date.yy<2000){
-					cout<<"Incorrect year out of bound enter again(2000-)!!!"<<endl;
-					goto label_11;
-				}
-				label_12:
-				cout<<"Enter Expiry Date: \n";
-				cout<<"      Day: "; cin>>Med.Expiry_date.dd;
-				if(Med.Expiry_date.dd>31 || Med.Expiry_date.dd<1){
-					cout<<"Incorrect date out of bound enter again(2000-)!!!"<<endl;
-					goto label_12;
-				}
-				label_13:
-				cout<<"      Month: "; cin>>Med.Expiry_date.mm;
-				if(Med.Expiry_date.mm>12 || Med.Expiry_date.mm<1){
-					cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
-					goto label_13;
-				}
-				label_14:
-				cout<<"      Year: "; cin>>Med.Expiry_date.yy;
-				if(Med.Expiry_date.yy<2000){
-					cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
-					goto label_14;
-				id=Med.ID;
-				Loading_bar();
-			}
-	
-			out_to_file<<med->ID<<" "<<med->name<<" "<<med->quantity<<" "<<med->price<<" "<<med->cost_of_each_drug<<" "
-				    <<med->number_of_sold<<" "<<med->type<<" "<<med->Manufacture_date.dd<<" "<<med->Manufacture_date.mm<<" "
-				    <<med->Manufacture_date.yy<<" "<<med->Expiry_date.dd<<" "<<med->Expiry_date.mm
-				    <<" "<<med->Expiry_date.yy<<endl;
-	
-		}
-		out_to_file.close();
-		break;
-	
-	}
-	
-	}
-	
-	}
-	
-	void View_store(){
-	HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-	ifstream infile("Pharmacy.text",ios::in);
-	int m=0;
-		//system("cls");
-		if(infile.is_open()){
-	  cout<<"The database of the medicine in the store is as shown below"<<endl;
-	  cout<<"-----------------------------------------------------------------"<<endl;
-	  cout<<"-----------------------------------------------------------------"<<endl;
-	  SetConsoleTextAttribute(font_color,3);
-	  cout<<setw(8)<<"Med.ID"<<setw(17)<<"Med. Name"<<setw(10)<<"Quant."<<setw(10)<<"Price"<<setw(10)<<"cost"<<setw(20)<<"Drug type"
-	  	  <<setw(17)<<"Manufac.date"<<setw(15)<<"Expiry date"<<endl;
-	        int check=0;
-	   		cout.setf(ios_base::left);
-	   		infile.seekg(0,ios::end);
-	   		int final=infile.tellg();
-	   		infile.seekg(0,ios::beg);
-			for(int i=0;i<id;i++){
-				if(m%2==0){
-					SetConsoleTextAttribute(font_color,8);
-				}
-				else{
-					SetConsoleTextAttribute(font_color,2);
-				}m++;
-		
-				     infile>>med->ID;
-				     infile>>med->name;
-				     infile>>med->quantity;
-				     infile>>med->price;
-				     infile>>med->cost_of_each_drug;
-				     infile>>med->number_of_sold;
-	                 infile>>med->type;
-	                 infile>>med->Manufacture_date.dd;
-	                 infile>>med->Manufacture_date.mm;
-	                 infile>>med->Manufacture_date.yy;
-	                 infile>>med->Expiry_date.dd;
-	                 infile>>med->Expiry_date.mm;
-	                 infile>>med->Expiry_date.yy;
+        #include <iostream>
+        #include <fstream>
+        #include <cstdlib>
+        #include <iomanip>
+        #include <windows.h>
+        #include <conio.h>
+        #include <vector>
+        #include <iterator>
+        #include <algorithm>
+        using namespace std;
+        int id=10,dd=0;
+        const int Size=500;
+        void Menu(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(font_color,11);
+                cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
+                cout<<"+ What do you want to do? 	  		 +"<<endl;
+                cout<<"+ 1. Update drug store   		 	 +"<<endl;
+                cout<<"+ 2. View drug store     			 +"<<endl;
+                cout<<"+ 3. View drug stack     			 +"<<endl;
+                cout<<"+ 4. Delete a medicine   			 +"<<endl;
+                cout<<"+ 5.	Drug disposal                    +"<<endl;
+                cout<<"+ 6. Disposed Medicines  			 +"<<endl;
+                cout<<"+ 7. Daily total sales 		    	 +"<<endl;
+                cout<<"+ 8. Modify An Entry 		    	 +"<<endl;
+                cout<<"+ M. Back to Main Menu    			 +"<<endl;
+                cout<<"+ P. Total profit Vs Total cost   	 +"<<endl;
+                cout<<"+ A. About                			 +"<<endl;
+                cout<<"+ E. Exit                 			 +"<<endl;
+                cout<<"+ + + + + + + + + + + + + + + + + + + +"<<endl;
+            SetConsoleTextAttribute(font_color,7);
 
-	                        cout<<setw(8)<<med->ID<<setw(17)<<med->name<<setw(10)<<med->quantity<<setw(10)
-	                        <<med->price<<setw(10)<<med->cost_of_each_drug<<setw(18)<<med->type<<" "<<setw(1)
-	                        <<med->Manufacture_date.dd<<"/"<<med->Manufacture_date.mm<<"/"<<med->Manufacture_date.yy<<setw(4)
-	                        <<setw(6)<<"\t"<<med->Expiry_date.dd<<"/"<<med->Expiry_date.mm<<"/"<<med->Expiry_date.yy<<endl;
-	                        
-			}
-		cout<<"-----------------------------------------------------------------"<<endl;
-	    cout<<"-----------------------------------------------------------------"<<endl;
-		}
-		else{
-	        cout<<"File open failed"<<endl;
-		}
-	}
-	
-	void check_stack(){
-	   ifstream infile("Pharmacy.text",ios::in);
-	   if(infile.is_open()){
-		HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-		int m=0;
-		system("cls");
-		cout<<"Do you want to see the total or partial stack for specific medicine?1/0:__";
-		int stack_choice,c=0;
-		cin>>stack_choice;
-		Loading_bar();
-		system("cls");
-		if(stack_choice==1){
-	
-			cout.setf(ios_base::left);
-			SetConsoleTextAttribute(font_color,2);
-			cout<<setw(8)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(13)<<"quantity"<<setw(10)<<"price"<<endl;
-			SetConsoleTextAttribute(font_color,7);
-			for(int i=1;i<=id;i++){
-				if(m%2==0){
-					SetConsoleTextAttribute(font_color,6);
-				}
-				else{
-					SetConsoleTextAttribute(font_color,8);
-				}
-	                 infile>>med->ID;
-				     infile>>med->name;
-				     infile>>med->quantity;
-				     infile>>med->price;
-				     infile>>med->cost_of_each_drug;
-				     infile>>med->number_of_sold;
-	                 infile>>med->type;
-	                 infile>>med->Manufacture_date.dd;
-	                 infile>>med->Manufacture_date.mm;
-	                 infile>>med->Manufacture_date.yy;
-	                 infile>>med->Expiry_date.dd;
-	                 infile>>med->Expiry_date.mm;
-	                 infile>>med->Expiry_date.yy;
-				m++;
-				cout<<setw(10)<<med->ID<<setw(18)<<med->name<<setw(11)<<med->quantity<<setw(10)<<med->price<<endl;
-	
-			}
-		}
-	
-		else{ int Med_ID;
-			cout<<"Enter the ID of the medicine you want to see:  ";
-			back:
-			cin>>Med_ID;
-			Loading_bar();
-			system("cls");
-			cout.setf(ios_base::left);
-			while(!infile.eof())
-				{    infile>>med->ID;
-				     infile>>med->name;
-				     infile>>med->quantity;
-				     infile>>med->price;
-				     infile>>med->cost_of_each_drug;
-				     infile>>med->number_of_sold;
-	                 infile>>med->type;
-	                 infile>>med->Manufacture_date.dd;
-	                 infile>>med->Manufacture_date.mm;
-	                 infile>>med->Manufacture_date.yy;
-	                 infile>>med->Expiry_date.dd;
-	                 infile>>med->Expiry_date.mm;
-	                 infile>>med->Expiry_date.yy;
-					if(Med_ID==med->ID)
-					{
-					c++;
-					break;
-					}
-				}
-			if(c!=0){
-				system("color 2");
-				cout<<setw(10)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(10)<<"quantity"<<setw(10)<<"price"<<endl;
-				SetConsoleTextAttribute(font_color,9);
-	            cout<<setw(10)<<med->ID<<setw(18)<<med->name<<setw(13)<<med->quantity<<setw(15)<<med->price<<endl;
-			}
-			else {
-			cout<<"The ID you entered don't have any match in our store. Enter again: ";
-			goto back;
-			}
-			SetConsoleTextAttribute(font_color,7);
-		}
-		SetConsoleTextAttribute(font_color,7);
-	   }
-	   else
-	   {
-	        cout<<"File open failed"<<endl;
-	   }
-	}
-	
-	void Expiry_Notification_Indicator(){
-		int n=0;
-		SYSTEMTIME current_time;
-		GetSystemTime (&current_time);
-	    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-	    ifstream infile("Pharmacy.text");
-	    if(infile.is_open()){
-	    cout.setf(ios_base::left);
-		for(int i=1;i<=id;i++){
-	            infile>>med->ID;
-				     infile>>med->name;
-				     infile>>med->quantity;
-				     infile>>med->price;
-				     infile>>med->cost_of_each_drug;
-				     infile>>med->number_of_sold;
-	                 infile>>med->type;
-	                 infile>>med->Manufacture_date.dd;
-	                 infile>>med->Manufacture_date.mm;
-	                 infile>>med->Manufacture_date.yy;
-	                 infile>>med->Expiry_date.dd;
-	                 infile>>med->Expiry_date.mm;
-	                 infile>>med->Expiry_date.yy;
-			if(current_time.wYear>med->Expiry_date.yy){
-				SetConsoleTextAttribute(font_color,4); n++;
-	 			Notification_bar();
-			}
-	
-			else if(current_time.wYear==med->Expiry_date.yy){
-	
-				if(current_time.wMonth>med->Expiry_date.mm){
-					SetConsoleTextAttribute(font_color,4); n++;
-					Notification_bar();
-			    }
-	
-			    else if(current_time.wMonth==med->Expiry_date.mm){
-	
-				    	if(current_time.wDay>=med->Expiry_date.dd){
-				    		SetConsoleTextAttribute(font_color,5); n++;
-				    		Notification_bar();
-	
-				    	}
-				}
-			}
-		}
-		infile.close();
-		if(n==0){
-		    SetConsoleTextAttribute(font_color,7);
-		}
-	
-	    }
-	    else
-	        cout<<"File open failed"<<endl;
-	
-	}
-	
-	void Update_Med(){  // can be done in other way
-  int M_id;
-  cout<<"Enter the ID of the medicine you are gong to modify:  "; cin>>M_id;
-  Loading_bar();
-     system("cls");
-     ifstream infile("Pharmacy.text");
-     ofstream ofile("newPharmacy.text");
- 
-     if(infile.is_open()){
-         for(int i=1;i<=id;i++){
-                  infile>>med->ID;
-         infile>>med->name;
-         infile>>med->quantity;
-         infile>>med->price;
-         infile>>med->cost_of_each_drug;
-         infile>>med->number_of_sold;
-                  infile>>med->type;
-                  infile>>med->Manufacture_date.dd;
-                  infile>>med->Manufacture_date.mm;
-                  infile>>med->Manufacture_date.yy;
-                  infile>>med->Expiry_date.dd;
-                  infile>>med->Expiry_date.mm;
-                  infile>>med->Expiry_date.yy;
-                 if(M_id!=med->ID){
-                      if(ofile.is_open()){
-                      ofile<<med->ID<<" ";
-                      ofile<<med->name<<" ";
-                      ofile<<med->quantity<<" ";
-                      ofile<<med->price<<" ";
-                      ofile<<med->cost_of_each_drug<<" ";;
-                      ofile<<med->number_of_sold<<" ";
-                      ofile<<med->type<<" ";
-                      ofile<<med->Manufacture_date.dd<<" ";
-                      ofile<<med->Manufacture_date.mm<<" ";
-                      ofile<<med->Manufacture_date.yy<<" ";
-                      ofile<<med->Expiry_date.dd<<" ";
-                      ofile<<med->Expiry_date.mm<<" ";
-                      ofile<<med->Expiry_date.yy<<" "<<endl;
-                         }
-                         else{
-                             cout<<"New file open failed"<<endl;
-                             break;
-                         }
-                 }
-                 else if(M_id==med->ID){
-                  med->ID=M_id;
-                  cout<<"Enter new drug name: ";
-         cin>>med->name;
-         cout<<"Enter new drug quntity: ";
-         cin>>med->quantity;
-         cout<<"Enter new drug price: ";
-         cin>>med->price;
-         cout<<"Enter new drug cost: ";
-         cin>>med->cost_of_each_drug;
-         med->number_of_sold=0;
-         cout<<"Enter new drug type: ";
-                  cin>>med->type;
-                  cout<<"Enter new Manufactured Date: \n";
-                  cout<<"      Day: ";
-                  cin>>med->Manufacture_date.dd;
-                  cout<<"      Month: ";
-                  cin>>med->Manufacture_date.mm;
-                  cout<<"      Year: ";
-                  cin>>med->Manufacture_date.yy;
-                  cout<<"Enter new Expiry Date: \n";
-                  cout<<"      Day: ";
-                  cin>>med->Expiry_date.dd;
-                  cout<<"      Month: ";
-                  cin>>med->Expiry_date.mm;
-                  cout<<"      Year: ";
-                  cin>>med->Expiry_date.yy;
-                  
-                  ofile<<med->ID<<" ";
-                     ofile<<med->name<<" ";
-                     ofile<<med->quantity<<" ";
-                     ofile<<med->price<<" ";
-                     ofile<<med->cost_of_each_drug<<" ";;
-                     ofile<<med->number_of_sold<<" ";
-                     ofile<<med->type<<" ";
-                     ofile<<med->Manufacture_date.dd<<" ";
-                     ofile<<med->Manufacture_date.mm<<" ";
-                     ofile<<med->Manufacture_date.yy<<" ";
-                     ofile<<med->Expiry_date.dd<<" ";
-                     ofile<<med->Expiry_date.mm<<" ";
-                     ofile<<med->Expiry_date.yy<<" "<<endl; id--;
-             }
- 
-             }
-         infile.close();
-         ofile.close();
- 
-         if(remove("Pharmacy.text")==0){
-             cout<<"The old file is removed"<<endl;
         }
-        else{
-         cout<<"File removing is failed"<<endl;
-        }
-        if(rename("newPharmacy.text","Pharmacy.text")==0){
-            cout<<"The new file is renamed"<<endl;
 
-void delete_entry(vector<medicine_types> &store,int id){
-    if(id!=0){ int l=0;
-                int med_id=id;
-                for(int i=0;i<store.size();i++){
-                    if(med_id==store[i].ID){
-                     l++;
-                    }
+
+        void customMenu(){
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(font_color,14);
+            cout<<"+ + + + + + + + + + + + + + + +"<<endl;
+            cout<<"+ What do you want to do?     +"<<endl;
+            cout<<"+ 1. View drug store          +"<<endl;
+            cout<<"+ 2. View drug availability   +"<<endl;
+            cout<<"+ 3. Place Order              +"<<endl;
+            cout<<"+ 4. Back to Main Menu        +"<<endl;
+            cout<<"+ 5. Exit                     +"<<endl;
+            cout<<"+ + + + + + + + + + + + + + + +"<<endl;
+        }
+
+        void About(){HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(font_color,6);
+            cout<<"This system is designed to handle the transactons of a pharmacy medical store managemet.\n"
+                <<"It is straight forward since it has a specified descriptive heading  for each task except \n"
+                <<"one thing,which is sometimes at the time of run you may look a red lightning,which indicates\n"
+                <<"that,there is a drug in the store that has been expired and need to be disposed."<<endl;
+        }
+
+
+        struct Date{
+            int dd,mm,yy;
+        };
+
+        struct medicine_types{
+            int ID,quantity,number_of_sold;
+            float price,cost_of_each_drug;
+            string name;
+            Date Manufacture_date,Expiry_date;
+            string type;
+
+        };
+
+        struct sale{
+         int customer_id,quantity_sold;
+         string customer_name;
+         int med_id;
+         float cost;
+         float m_price;
+         string med_name;
+         Date sale_date;
+        };
+
+        vector<medicine_types> Disposed_med;
+        vector<sale> sale_history;
+
+        void Store_Drug (vector<medicine_types> &medicine);
+        void View_store(vector<medicine_types> &stored);
+        void main_menu(vector<medicine_types> store,char name[]);
+        void admin_menu(vector<medicine_types> store,char name[]);
+        void customer_menu(vector<medicine_types> store,char name[]);
+        void Notification_bar();
+        void Loading_bar();
+        void check_stack(vector<medicine_types> &Med_stack);
+        void Struct_Initializer(vector<medicine_types> &store);
+        void Delete_All(vector<medicine_types> &store);
+        void Delete_Entry(vector<medicine_types> &store);
+        void Expiry_Notification_Indicator(vector<medicine_types> &Medicines);
+        void delete_entry(vector<medicine_types> &store,int id);
+        void Drug_Disposal(vector<medicine_types> &store);
+        void Disposed_Medicines();
+        void Read_from_sale();
+        void To_Buy_Medicine(vector<medicine_types> &store);
+        void Total_sales_table(vector<medicine_types> &store);
+        void Profit_Analysis(vector<medicine_types> &store);
+        void Modify_Entry(vector<medicine_types> &store);
+        void Write_to_File(vector<medicine_types> &store,char fileName[]);
+        void Read_from_file(vector<medicine_types> &store,char fileName[]);
+
+        //Main function
+        int main(){
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            Loading_bar();
+            system("cls");
+            SetConsoleTextAttribute(font_color,10);
+            cout<<"                    ---------------------------------------"<<endl;
+            cout<<"                    ---------------------------------------"<<endl;
+            cout<<"--------------------|Welcome to Our Pharmacy store Program| --------------------"<<endl;
+            cout<<"                    ---------------------------------------"<<endl;
+            cout<<"                    ---------------------------------------"<<endl;
+            vector<medicine_types> store;
+            char second[]="store.txt";
+            char fileName[]="Pharmacy.txt";
+            Struct_Initializer(store);
+            Read_from_file(store,"Pharmacy.txt");
+            main_menu(store,fileName);
+
+        return 0;
+        }//End of main
+
+
+        void Notification_bar(){
+            system("color 04");
+            cout<<"\t\t\t\t\nYou have expired drugs...";
+            char x=219;
+            for(int i=0;i<40;i++){
+                cout<<x;
+                Sleep(2);
+            }
+            system("color 07");
+            Sleep(5);
+            cout<<endl;
+        }
+
+        void Loading_bar(){
+            system("color 02");
+            cout<<"\n\n\n\n Loading";
+            char x=219;
+
+            for(int i=0;i<60;i++){
+                Sleep(5);
+                cout<<x;
+            }
+            system("color 07");
+            cout<<endl<<endl;
+        }
+
+        void main_menu(vector<medicine_types> store,char name[])
+        {
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            Loading_bar();
+            system("cls");
+            SetConsoleTextAttribute(font_color,10);
+            char chioce;
+            do
+            {
+                SetConsoleTextAttribute(font_color,9);
+                cout << "\n\n\n\tMAIN MENU";
+                cout << "\n\n\tA. ADMINISTRATOR";
+                cout << "\n\n\tC. CUSTOMER";
+                cout << "\n\n\tE. EXIT";
+                cout << "\n\n\tPlease Select Your Option: ";
+                input:
+                cin>>chioce;
+                switch (chioce)
+                {   case 'a':
+                    case 'A':Loading_bar();
+                             admin_menu(store,name);
+                    break;
+                    case 'c':
+                    case 'C':Loading_bar();
+                           customer_menu(store,name);
+                    break;
+                    case 'e':
+                    case 'E':
+                            Loading_bar();
+                            cout<<"You choose to to exit the program"<<endl;
+                            system("pause");
+                            exit(0);
+                    default:Loading_bar();
+                        cout << "Incorrect choice try again... ";goto input;
 
                 }
-                if(l!=0){
-              for(int i=0;i<store.size();i++){
-                    if(med_id==store[i].ID){
-                        store.erase(store.begin() + i);
-                        cout<<"Delete successful"<<endl;
+            }while(true);
+
+        }
+
+
+        void admin_menu(vector<medicine_types> store,char name[])
+        {   int num;
+            if(store.size()==0){
+                cout<<"Do you want to initialize the stack? Enter 1 to confirm: "<<endl;
+                cin>>num;
+                if(num==1){
+                    Struct_Initializer(store);
+                }
+            }
+            char choice;
+            do{
+            Expiry_Notification_Indicator(store); //function call to indicate existance of expired drug
+            system("cls");
+            Menu();
+            cout<<"Enter your choice here: ";
+            input:
+            cin>>choice;
+            switch(choice){
+
+                case '1':Loading_bar();
+                        system("cls");
+                        Expiry_Notification_Indicator(store); //function call to indicate existance of expired drug
+                        system("cls");
+                        Store_Drug(store);
+                        system("pause");
+                        View_store(store);
+                        system("pause");
+                        break;
+                case '2':Loading_bar();
+                        system("cls");
+                        Expiry_Notification_Indicator(store); //function call to indicate existance of expired drug
+                        system("cls");
+                        View_store(store);
+                        system("pause");
+                        break;
+                case '3':Loading_bar();
+                        system("cls");
+                        Expiry_Notification_Indicator(store);
+                        system("cls");
+                        check_stack(store);
+                        system("pause");
+                break;
+                case '4':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Delete_Entry(store);
+                         system("pause");
+                break;
+                case '5':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Drug_Disposal(store);
+                         system("pause");
+                break;
+                case '6':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Disposed_Medicines();
+                         system("pause");
+                break;
+                case '7':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Total_sales_table(store);
+                         system("pause");
+                break;
+                case '8':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Modify_Entry(store);
+                         View_store(store);
+                         system("pause");
+                break;
+                case 'p':
+                case 'P':Loading_bar();
+                         system("cls");
+                         Expiry_Notification_Indicator(store);
+                         system("cls");
+                         Profit_Analysis(store);
+                         system("pause");
+                break;
+                case 'm':
+                case 'M':Loading_bar();
+                         system("cls");
+                         main_menu(store,name);
+                         system("pause");
+                break;
+                case 'a':
+                case 'A':Loading_bar();
+                         system("cls");
+                         About();
+                         system("pause");
+                break;
+                case 'e':
+                case 'E': cout<<"You choose to exit."<<endl;
+                          system("pause");
+                          exit(0);
+                default: cout<<"Wrong input enter again: "; goto input;
+            }
+
+            }while(true);
+
+        }
+
+        void customer_menu(vector<medicine_types> store,char name[])
+        {   label_mm:
+            int choice;
+            do{
+             system("cls");
+            customMenu();
+            cout<<"Enter your choice here: "; cin>>choice;
+            switch(choice){
+                case 1: Loading_bar();
+                        system("cls");
+                        View_store(store);
+                        system("pause");
+                break;
+                case 2: Loading_bar();
+                        system("cls");
+                        check_stack(store);
+                        system("pause");
+                break;
+                case 3: Loading_bar();
+                        system("cls");
+                        To_Buy_Medicine(store);
+                        system("pause");
+                break;
+                case 4: Loading_bar();
+                        system("cls");
+                        main_menu(store,name);
+                        system("pause");
+                break;
+                case 5: Loading_bar();
+                        cout<<"You choose to to exit the program"<<endl;
+                        system("pause");
+                        exit(0);
+                default: cout<<"Incorrect choice enter again..."<<endl; goto label_mm; break;
+               }
+
+           }while(true);
+        }
+
+
+         void Struct_Initializer(vector<medicine_types> &store){
+
+            store.push_back({1,205,15,55.67,23.50,"Paracetamol",12,12,2020,11,11,2022,"antibiotic"});
+            store.push_back({2,3,0,100.90,56.77,"Humalog",10,12,2018,11,11,2020,"anti-diabetic"});
+            store.push_back({3,4,0,120.99,50.23,"Phoslo",12,12,2010,18,9,2019,"antibiotic"});
+            store.push_back({4,156,0,125.55,10.99,"Aspirin",12,12,2020,11,7,2021,"antibiotic"});
+            store.push_back({5,256,0,150.90,89.99,"Vicks",12,12,2020,11,11,2024,"anti-tussive"});
+            store.push_back({6,5,0,200.55,120.66,"Xyzal",12,12,2018,11,11,2019,"anti-histamine"});
+            store.push_back({7,100,0,99.78,50,"Nexplanon",12,12,2020,11,11,2029,"contraceptives"});
+            store.push_back({8,690,0,180,110.99,"Meclizine",12,12,2020,11,11,2022,"antibiotic"});
+            store.push_back({9,324,0,175.76,100.67,"Lisinoprril",12,12,2020,11,11,2022,"anti-hyper"});
+            store.push_back({10,222,0,145.78,99.54,"Afrin",12,12,2020,11,11,2021,"anti-pyretic"});
+        }
+
+        void Delete_All(vector<medicine_types> &store){
+            store.clear();id=0;
+        }
+
+        void Store_Drug (vector<medicine_types> &medicine){
+        int k,num_of_med;
+        medicine_types med;
+            cout<<"Do you want to continue with the default stack or you want to enter from scratch?1/0"<<endl;
+            cin>>k;
+            Loading_bar();
+            system("cls");
+            cout<<"How many number of medicine you are going to store"<<endl;
+            cin>>num_of_med;
+            Loading_bar();
+            system("cls");
+            switch(k){
+
+            case 1:
+            {
+                cout<<"\n continued Enter the necessary informations for the drug you want to store!!!"<<endl;
+                for(int i=0;i<num_of_med;++i){
+                    med.ID=id+1;
+                    cout<<"Drug ID: "<<med.ID<<endl;
+                    cin.ignore();
+                    cout<<"Enter Drug Name: "; getline(cin,med.name);
+                    cin.ignore();
+                    cout<<"Enter the quantity of this medicine: ";
+                    labe20:
+                    cin>>med.quantity;
+                    if(med.quantity<0){
+                        cout<<"No such Quantity,enter again "; goto labe20;
                     }
+                    cin.ignore();
+                    cout<<"Enter Price: ";
+                    label21:
+                    cin>>med.price;
+                    if(med.price<0){
+                        cout<<"Price can't be negative,enter again "; goto label21;
+                    }
+                    cout<<"Enter Cost: ";
+                    label22:
+                    cin>>med.cost_of_each_drug;
+                    if(med.cost_of_each_drug<0){
+                        cout<<"Negative value is noallowed,enter again "; goto label22;
+                    }
+                    cin.ignore();
+                    cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med.type;
+                    cin.ignore();
+                    cout<<"Enter Manufactured Date: \n";
+                    label3:
+                    cout<<"      Day: "; cin>>med.Manufacture_date.dd;
+                    if(med.Manufacture_date.dd>31 || med.Manufacture_date.dd<1){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto label3;
+                    }
+                    label4:
+                    cout<<"      Month: "; cin>>med.Manufacture_date.mm;
+                    if(med.Manufacture_date.mm>12 || med.Manufacture_date.mm<1){
+                        cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+                        goto label4;
+                    }
+                    label5:
+                    cout<<"      Year: "; cin>>med.Manufacture_date.yy;
+                    if(med.Manufacture_date.yy<2000){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto label5;
+                    }
+                    label6:
+                    cout<<"Enter Expiry Date: \n";
+                    cout<<"      Day: "; cin>>med.Expiry_date.dd;
+                    if(med.Expiry_date.dd>31 || med.Expiry_date.dd<1){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto label6;
+                    }
+                    label7:
+                    cout<<"      Month: "; cin>>med.Expiry_date.mm;
+                    if(med.Expiry_date.mm>12 || med.Expiry_date.mm<1){
+                        cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+                        goto label7;
+                    }
+                    label8:
+                    cout<<"      Year: "; cin>>med.Expiry_date.yy;
+                    if(med.Expiry_date.yy<2000){
+                        cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+                        goto label8;
+                    }
+                    id++; cout<<"\n\n";
+                    Loading_bar();
+                medicine.push_back(med);
+                }
+            } break;
+
+            default:
+            Delete_All(medicine);
+               {
+            cout<<"\n Enter the necessary informations for the drug you want to store!!!"<<endl;
+
+                for(int i=0;i<num_of_med;++i){
+                    med.ID=i+1;
+                    cout<<"Drug ID: "<<med.ID<<endl;
+                    cin.ignore();
+                    cout<<"Enter Drug Name: "; getline(cin,med.name);
+                    cin.ignore();
+                    cout<<"Enter the quantity of this medicine: ";
+                    labe_1:
+                    cin>>med.quantity;
+                    if(med.quantity<0){
+                        cout<<"No such Quantity,enter again "; goto labe_1;
+                    }
+                    cin.ignore();
+                    cout<<"Enter Price: ";
+                    labe_2:
+                    cin>>med.price;
+                    if(med.price<0){
+                        cout<<"Price can't be negative,enter again "; goto labe_2;
+                    }
+                    cout<<"Enter Cost: ";
+                    labe_3:
+                    cin>>med.cost_of_each_drug;
+                    if(med.cost_of_each_drug<0){
+                        cout<<"Negative value is noallowed,enter again "; goto labe_3;
+                    }
+                    cin.ignore();
+                    cout<<"Enter Drug type(E.g Antibitic,Antiseptic,Disinfectant...): "; cin>>med.type;
+                    cin.ignore();
+                    cout<<"Enter Manufactured Date: \n";
+                    labe_4:
+                    cout<<"      Day: "; cin>>med.Manufacture_date.dd;
+                    if(med.Manufacture_date.dd>31 || med.Manufacture_date.dd<1){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto labe_4;
+                    }
+                    labe_5:
+                    cout<<"      Month: "; cin>>med.Manufacture_date.mm;
+                    if(med.Manufacture_date.mm>12 || med.Manufacture_date.mm<1){
+                        cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+                        goto labe_5;
+                    }
+                    labe_6:
+                    cout<<"      Year: "; cin>>med.Manufacture_date.yy;
+                    if(med.Manufacture_date.yy<2000){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto labe_6;
+                    }
+                    labe_7:
+                    cout<<"Enter Expiry Date: \n";
+                    cout<<"      Day: "; cin>>med.Expiry_date.dd;
+                    if(med.Expiry_date.dd>31 || med.Expiry_date.dd<1){
+                        cout<<"Incorrect date out of bound enter again(1-31)!!!"<<endl;
+                        goto labe_7;
+                    }
+                    labe_8:
+                    cout<<"      Month: "; cin>>med.Expiry_date.mm;
+                    if(med.Expiry_date.mm>12 || med.Expiry_date.mm<1){
+                        cout<<"Incorrect month out of bound enter again(1-12)!!!"<<endl;
+                        goto labe_8;
+                    }
+                    labe_9:
+                    cout<<"      Year: "; cin>>med.Expiry_date.yy;
+                    if(med.Expiry_date.yy<2000){
+                        cout<<"Incorrect month out of bound enter again(2000-)!!!"<<endl;
+                        goto labe_9;
+                    }
+                    id=med.ID;
+                    Loading_bar();
+                    medicine.push_back(med);
+                }
+
+            } break;
+
+        }
+       Write_to_File(medicine,"Pharmacy.txt");
+        }
+
+    void View_store(vector<medicine_types> &stored){
+        HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+        int m=0;
+            system("cls");
+
+          cout<<"The database of the medicine in the store is as shown below"<<endl;
+          cout<<"-----------------------------------------------------------------"<<endl;
+          cout<<"-----------------------------------------------------------------"<<endl;
+          SetConsoleTextAttribute(font_color,3);
+          cout<<setw(8)<<"Med.ID"<<setw(17)<<"Med. Name"<<setw(10)<<"Quant."<<setw(10)<<"Price"<<setw(10)<<"cost"<<setw(20)<<"Drug type"
+              <<setw(17)<<"Manufac.date"<<setw(15)<<"Expiry date"<<endl;
+
+                cout.setf(ios_base::left);
+                for(int i=0;i<stored.size();++i){
+                    if(m%2==0){
+                        SetConsoleTextAttribute(font_color,8);
+                    }
+                    else{
+                        SetConsoleTextAttribute(font_color,2);
+                    }
+                    m++;
+                    cout<<setw(8)<<stored[i].ID<<setw(17)<<stored[i].name<<setw(10)<<stored[i].quantity<<setw(10)
+                        <<stored[i].price<<setw(10)<<stored[i].cost_of_each_drug<<setw(18)<<stored[i].type<<" "<<setw(1)
+                        <<stored[i].Manufacture_date.dd<<"/"
+                        <<stored[i].Manufacture_date.mm<<"/"<<stored[i].Manufacture_date.yy
+                        <<setw(6)<<"\t"<<stored[i].Expiry_date.dd<<"/"<<stored[i].Expiry_date.mm<<"/"<<stored[i].Expiry_date.yy<<endl;
+                }
+            cout<<"-----------------------------------------------------------------"<<endl;
+            cout<<"-----------------------------------------------------------------"<<endl;
+            if(m==0){
+                cout<<"The drug store is empty"<<endl;
+            }
+        }
+
+
+    void check_stack(vector<medicine_types> &Med_stack){
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            int m=0;
+            system("cls");
+            cout<<"Do you want to see the total or partial stack for specific medicine?1/0:__";
+            int stack_choice,c=0;
+            cin>>stack_choice;
+            Loading_bar();
+            system("cls");
+            if(stack_choice==1){
+
+                cout.setf(ios_base::left);
+                SetConsoleTextAttribute(font_color,2);
+                cout<<setw(8)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(13)<<"quantity"<<setw(10)<<"price"<<endl;
+                SetConsoleTextAttribute(font_color,7);
+                for(int i=0;i<Med_stack.size();++i){
+                    if(m%2==0){
+                        SetConsoleTextAttribute(font_color,6);
+                    }
+                    else{
+                        SetConsoleTextAttribute(font_color,8);
+                    }
+                    m++;
+                    cout<<setw(10)<<Med_stack[i].ID<<setw(18)<<Med_stack[i].name<<setw(11)<<Med_stack[i].quantity<<setw(10)<<Med_stack[i].price<<endl;
+
+                }
+            }
+
+            else{ int Med_ID,what;
+                string name,temp;
+                cout<<"Do you want to search by ID or Name of the medicine: (1 for id, 2 for name): "; cin>>what;
+                switch(what){
+                case 1:
+                {
+                cout<<"Enter the ID of the medicine you want to see:  ";
+                back:
+                cin>>Med_ID;
+                Loading_bar();
+                system("cls");
+                cout.setf(ios_base::left);
+                for(int i=0;i<Med_stack.size();++i)
+                    {
+                        if(Med_ID==Med_stack[i].ID)
+                        {
+                        c++;
+                        }
+                    }
+                if(c!=0){
+                    system("color 2");
+                    cout<<setw(10)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(10)<<"quantity"<<setw(10)<<"price"<<endl;
+                    SetConsoleTextAttribute(font_color,9);
+                    for(int k=0;k<Med_stack.size();++k){
+                            if(Med_ID==Med_stack[k].ID){
+                                cout<<setw(10)<<Med_stack[k].ID<<setw(18)<<Med_stack[k].name<<setw(13)<<Med_stack[k].quantity<<setw(15)<<Med_stack[k].price<<endl;
+                            }
+                        }
+                }
+                else {
+                cout<<"The ID you entered don't have any match in our store. Enter again: ";
+                goto back;
+                }
+                SetConsoleTextAttribute(font_color,7);
+                }
+                break;
+                case 2:
+                   {
+                       again:
+                    cout<<"Enter the name of the medicine: ";
+                    cin>>name;
+                    Loading_bar();
+                    system("cls");
+                    cout.setf(ios_base::left);
+                    for(int i=0;i<Med_stack.size();++i)
+                        {
+                            temp=Med_stack[i].name;
+                                 for(int i=0;i<temp.size();i++){
+                                    temp[i]=toupper(temp[i]);
+                                 }
+                                 for(int i=0;i<name.size();i++){
+                                    name[i]=toupper(name[i]);
+                                 }
+                            if(name==temp)
+                            { c++;
+                            system("color 2");
+                                cout<<setw(10)<<"Drug ID"<<setw(18)<<"Name of Medicine"<<setw(10)<<"quantity"<<setw(10)<<"price"<<endl;
+                                SetConsoleTextAttribute(font_color,9);
+                                    if(name==temp){
+                                        cout<<setw(10)<<Med_stack[i].ID<<setw(18)<<Med_stack[i].name<<setw(13)<<Med_stack[i].quantity<<setw(15)<<Med_stack[i].price<<endl;
+
+                                }
+
+                            }
+                        }
+                 if(c==0){
+                    cout<<"Sorry I can't found the medicine name you entered"<<endl;
+                }
+
+                    }break;
+                }
+
+            SetConsoleTextAttribute(font_color,7);
+
+            }
+
+    }
+
+    void delete_entry(vector<medicine_types> &store,int id){
+        if(id!=0){ int l=0;
+                    int med_id=id;
+                    for(int i=0;i<store.size();i++){
+                        if(med_id==store[i].ID){
+                         l++;
+                        }
+
+                    }
+                    if(l!=0){
+                  for(int i=0;i<store.size();i++){
+                        if(med_id==store[i].ID){
+                            store.erase(store.begin() + i);
+                            cout<<"Delete successful"<<endl;
+                        }
+                    }
+                }
+                else{
+                    cout<<"Deleting failed"<<endl;
+                }
+
+            }
+        Write_to_File(store,"Pharmacy.txt");
+    }
+
+
+    void Delete_Entry(vector<medicine_types> &store){
+            int med_id; string name;
+            system("cls");
+            cout<<"Do you want to delete an entry or the whole stack?1/0:__";
+            int stack_choice,c=0;
+            cin>>stack_choice;
+            Loading_bar();
+            system("cls");
+            int what;
+            if(stack_choice==1){
+             cout<<"Do you want to enter ID or Name of the medicine: (1 for id, 2 for name): ";
+             label:
+             cin>>what;
+                switch(what){
+                case 1 :{
+                    cout<<"Enter the ID of the medicine you want to delete:  "; cin>>med_id;
+                    for(int i=0;i<store.size();i++){
+                        if(med_id==store[i].ID){
+                            store.erase(store.begin() + i);
+                            cout<<"Delete successful"<<endl;
+                        }
+
+                    }
+
+                  }break;
+                case 2 :{
+                    cout<<"Enter the name of the medicine you want to delete:  "; cin>>name;
+                    for(int i=0;i<store.size();i++){
+                                 string temp=store[i].name;
+                                 for(int i=0;i<temp.size();i++){
+                                    temp[i]=toupper(temp[i]);
+                                 }
+                                 for(int i=0;i<name.size();i++){
+                                    name[i]=toupper(name[i]);
+                                 }
+                        if(name==temp){
+                            store.erase(store.begin() + i);
+                            cout<<"Delete successful"<<endl;
+                        }
+
+                    }
+                    system("pause");
+
+                  }break;
+
+                 default: cout<<"Invalid choice enter again: "; goto label;
                 }
             }
             else{
-                cout<<"Deleting failed"<<endl;
+                Delete_All(store);
+            }
+            Write_to_File(store,"Pharmacy.txt");
+            View_store(store);
+    }
+
+
+    void Expiry_Notification_Indicator(vector<medicine_types> &Medicines){
+            int n=0;
+            SYSTEMTIME current_time;
+            GetSystemTime (&current_time);
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            cout.setf(ios_base::left);
+            for(int i=0;i<Medicines.size();++i){
+                if(current_time.wYear>Medicines[i].Expiry_date.yy){
+                    SetConsoleTextAttribute(font_color,4); n++;
+                    Notification_bar();
+                }
+
+                else if(current_time.wYear==Medicines[i].Expiry_date.yy){
+
+                    if(current_time.wMonth>Medicines[i].Expiry_date.mm){
+                        SetConsoleTextAttribute(font_color,4); n++;
+                        Notification_bar();
+                    }
+
+                    else if(current_time.wMonth==Medicines[i].Expiry_date.mm){
+
+                            if(current_time.wDay>=Medicines[i].Expiry_date.dd){
+                                SetConsoleTextAttribute(font_color,5); n++;
+                                Notification_bar();
+                             }
+                    }
+                }
+            }
+            if(n==0){
+                SetConsoleTextAttribute(font_color,7);
             }
 
         }
-    Write_to_File(store,"Pharmacy.txt");
-}
 
+        void Drug_Disposal(vector<medicine_types> &store){
+            int m=0,z=0,y;
+            vector<medicine_types> Expired;
+            SYSTEMTIME current_time;
+            GetSystemTime (&current_time);
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            for(int i=0;i<store.size();++i){
+                if(current_time.wYear>store[i].Expiry_date.yy){
+                    Disposed_med.push_back(store[i]); m++;
+                    Expired.push_back(store[i]);
+                    delete_entry(store,store[i].ID);
+                    Write_to_File(store,"Pharmacy.txt");
+                }
+                else if(current_time.wYear==store[i].Expiry_date.yy){
 
-void Delete_Entry(vector<medicine_types> &store){
-        int med_id; string name;
-        system("cls");
-    cout<<"Do you want to delete an entry or the whole stack?1/0:__";
-    int stack_choice,c=0;
-    cin>>stack_choice;
-    Loading_bar();
-    system("cls");
-    int what;
-    if(stack_choice==1){
-         cout<<"Do you want to enter ID or Name of the medicine: (1 for id, 2 for name): ";
-         label:
-         cin>>what;
-        switch(what){
-            case 1 :{
-                cout<<"Enter the ID of the medicine you want to delete:  "; cin>>med_id;
-                for(int i=0;i<store.size();i++){
-                    if(med_id==store[i].ID){
-                        store.erase(store.begin() + i);
-                        cout<<"Delete successful"<<endl;
+                    if(current_time.wMonth>store[i].Expiry_date.mm){
+                        Disposed_med.push_back(store[i]); m++;
+                        Expired.push_back(store[i]);
+                        delete_entry(store,store[i].ID);
+                        Write_to_File(store,"Pharmacy.txt");
+                    }
+                    else if(current_time.wMonth==store[i].Expiry_date.mm){
+                        if(current_time.wDay>=store[i].Expiry_date.dd){
+                            Disposed_med.push_back(store[i]); m++;
+                            Expired.push_back(store[i]);
+                            store.erase(store.begin() + i);
+                            Write_to_File(store,"Pharmacy.txt");
+                        }
+
                     }
 
                 }
+            }
 
-              }break;
-            case 2 :{
-                cout<<"Enter the name of the medicine you want to delete:  "; cin>>name;
-                for(int i=0;i<store.size();i++){
-                             string temp=store[i].name;
-                             for(int i=0;i<temp.size();i++){
-                                temp[i]=toupper(temp[i]);
-                             }
-                             for(int i=0;i<name.size();i++){
-                                name[i]=toupper(name[i]);
-                             }
-                    if(name==temp){
-                        store.erase(store.begin() + i);
-                        cout<<"Delete successful"<<endl;
+            if(m!=0){
+            SetConsoleTextAttribute(font_color,3);
+            cout<<setw(10)<<"Drug ID"<<setw(12)<<"Name "<<setw(12)<<"quantity"<<setw(10)<<"cost "<<endl;
+            for(int y=0;y<Expired.size();y++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+                  cout<<setw(10)<<Expired[y].ID<<setw(15)<<Expired[y].name<<setw(12)<<Expired[y].quantity<<setw(7)
+                       <<Expired[y].cost_of_each_drug<<endl;
+                }
+
+            }
+
+            else{
+                cout<<"-------------------------------"<<endl;
+                cout<<"| No expired drug is detected |"<<endl;
+                cout<<"-------------------------------"<<endl;
+            }
+            system("pause");
+            View_store(store);
+            ofstream outfile("Disposed.txt",ios::app);
+            if(outfile.is_open()){
+                for(int i=0;i<Expired.size();i++){
+                    outfile<<Expired[i].ID<<" "<<Expired[i].name<<" "<<Expired[i].quantity<<" "<<Expired[i].price<<" "<<Expired[i].cost_of_each_drug<<" "
+                           <<Expired[i].number_of_sold<<" "<<Expired[i].type<<" "<<Expired[i].Manufacture_date.dd<<" "<<Expired[i].Manufacture_date.mm<<" "
+                           <<Expired[i].Manufacture_date.yy<<" "<<Expired[i].Expiry_date.dd<<" "<<Expired[i].Expiry_date.mm<<" "<<Expired[i].Expiry_date.yy<<endl;
+
+                }
+            }
+            else{
+                cout<<"Disposed medicine saving failed"<<endl;
+            }
+            outfile.close();
+        }
+
+
+            void Disposed_Medicines(){int z=0;
+            Read_from_file(Disposed_med,"Disposed.txt");
+                HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+                 if(!Disposed_med.empty()){
+            SetConsoleTextAttribute(font_color,3);
+            cout<<setw(10)<<"Drug ID"<<setw(12)<<"Name "<<setw(12)<<"quantity"<<setw(10)<<"cost "<<endl;
+            for(int j=0;j<Disposed_med.size();j++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+                   cout<<setw(10)<<Disposed_med[j].ID<<setw(15)<<Disposed_med[j].name<<setw(12)<<Disposed_med[j].quantity<<setw(7)
+                       <<Disposed_med[j].cost_of_each_drug<<endl;
                     }
-
                 }
-                system("pause");
-
-              }break;
-
-             default: cout<<"Invalid choice enter again: "; goto label;
-        }
-    }
-        else{
-            Delete_All(store);
-        }
-        Write_to_File(store,"Pharmacy.txt");
-        View_store(store);
-}
-
-
-void Expiry_Notification_Indicator(vector<medicine_types> &Medicines){
-    int n=0;
-    SYSTEMTIME current_time;
-    GetSystemTime (&current_time);
-      HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-      cout.setf(ios_base::left);
-    for(int i=0;i<Medicines.size();++i){
-      if(current_time.wYear>Medicines[i].Expiry_date.yy){
-        SetConsoleTextAttribute(font_color,4); n++;
-         Notification_bar();
-      }
-
-      else if(current_time.wYear==Medicines[i].Expiry_date.yy){
-
-        if(current_time.wMonth>Medicines[i].Expiry_date.mm){
-          SetConsoleTextAttribute(font_color,4); n++;
-          Notification_bar();
-          }
-
-          else if(current_time.wMonth==Medicines[i].Expiry_date.mm){
-
-              if(current_time.wDay>=Medicines[i].Expiry_date.dd){
-                SetConsoleTextAttribute(font_color,5); n++;
-                Notification_bar();
-               }
+                else{
+                    cout<<"-------------------------------"<<endl;
+                    cout<<"| No expired medicine record |"<<endl;
+                    cout<<"-------------------------------"<<endl;
                 }
-      }
-    }
-    if(n==0){
-        SetConsoleTextAttribute(font_color,7);
-    }
+            }
 
-  }
+    void To_Buy_Medicine(vector<medicine_types> &store){
+        HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+        Read_from_sale();
+       char ch;
+       vector<sale> sale_rec_temp;
+       sale order;
+       int c=0,quant,date,month,year,existance_check=0,z=0;
+       cout<<"Dear customer please enter the required infotmations carefully."<<endl<<endl;
+       cout<<"Enter your name: "; cin>>order.customer_name;
+       cout<<"Date by separating by space as (dd mm yyyy): ";
+                    cin>>order.sale_date.dd>>order.sale_date.mm
+                       >>order.sale_date.yy;
+       system("cls");
+       View_store(store);
+       system("pause");
 
- void Drug_Disposal(vector<medicine_types> &store){
-      int m=0,z=0,y;
-      vector<medicine_types> Expired;
-    SYSTEMTIME current_time;
-    GetSystemTime (&current_time);
-    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-    for(int i=0;i<store.size();++i){
-      if(current_time.wYear>store[i].Expiry_date.yy){
-        Disposed_med.push_back(store[i]); m++;
-        Expired.push_back(store[i]);
-        delete_entry(store,store[i].ID);
-        Write_to_File(store,"Pharmacy.txt");
-      }
-      else if(current_time.wYear==store[i].Expiry_date.yy){
-   Disposed_med.push_back(store[i]); m++;
-          Expired.push_back(store[i]);
-          delete_entry(store,store[i].ID);
-          Write_to_File(store,"Pharmacy.txt");
-        }
-        else if(current_time.wMonth==store[i].Expiry_date.mm){
-          if(current_time.wDay>=store[i].Expiry_date.dd){
-            Disposed_med.push_back(store[i]); m++;
-            Expired.push_back(store[i]);
-            store.erase(store.begin() + i);
-            Write_to_File(store,"Pharmacy.txt");
-          }
+        do{
+            cout<<"Enter customer id: ";
+            cin>>order.customer_id;
+            cout<<"Enter the id of the medicine: ";
+            label1:
+            cin>>order.med_id;
+            for(int i=0;i<store.size();i++){
+                 if(order.med_id==store[i].ID){
+                     existance_check++;
+                     label2:
+                    cout << "\nQuantity in number : ";
+                    cin>>order.quantity_sold;
+                    if(order.quantity_sold>store[z].quantity){
+                        cout<<"Beyond the amount in the store please enter again!!!"<<endl;goto label2;
+                    }
+                    order.m_price=store[z].price;
+                    order.med_name=store[z].name;
+                    order.cost=store[z].cost_of_each_drug;
+                    store[z].number_of_sold+=order.quantity_sold;
+                    store[z].quantity=store[z].quantity-order.quantity_sold;
+                    sale_rec_temp.push_back(order);
+                    sale_history.push_back(order);
+                 }
+            }
 
-        }
-
-      }
-    }
-
-        if(m!=0){
-    SetConsoleTextAttribute(font_color,3);
-    cout<<setw(10)<<"Drug ID"<<setw(12)<<"Name "<<setw(12)<<"quantity"<<setw(10)<<"cost "<<endl;
-    for(int y=0;y<Expired.size();y++){
-      if(z%2==0){
-         SetConsoleTextAttribute(font_color,5);
-       }
-       else{
-         SetConsoleTextAttribute(font_color,3);
-       }
-       z++;
-        cout<<setw(10)<<Expired[y].ID<<setw(15)<<Expired[y].name<<setw(12)<<Expired[y].quantity<<setw(7)
-             <<Expired[y].cost_of_each_drug<<endl;
-      }
-
-    }
-
-    else{
-            cout<<"-------------------------------"<<endl;
-        cout<<"| No expired drug is detected |"<<endl;
-            cout<<"-------------------------------"<<endl;
-    }
-        system("pause");
-        View_store(store);
-
-  }
-
-
-void To_Buy_Medicine(vector<medicine_types> &store){
-    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-   char ch;
-   vector<sale> sale_rec_temp;
-   sale order;
-   int c=0,quant,date,month,year,order_arr[c],existance_check=0,z=0;
-   cout<<"Dear customer please enter the required infotmations carefully."<<endl<<endl;
-   cout<<"Enter your name: "; cin>>order.customer_name;
-   cout<<"Date by separating by space as (dd mm yyyy): ";
-            cin>>order.sale_date.dd>>order.sale_date.mm
-               >>order.sale_date.yy;
-   system("cls");
-   View_store(store);
-   system("pause");
-
-    do{
-        order.customer_id=++dd;
-        label1:
-        cout<<"Enter the id of the medicine: "; cin>>order.med_id;
-        for(int i=0;i<store.size();i++){
-           if(order.med_id==store[i].ID){
-              label2:
-              existance_check++;
-            cout << "\nQuantity in number : ";
-            cin>>order.quantity_sold;
-            if(order.quantity_sold>store[i].quantity){
-              cout<<"Beyond the amount in the store please enter again!!!"<<endl;goto label2;
-        }
-        order.m_price=store[i].price;
-        order.med_name=store[i].name;
-        order.cost=store[i].cost_of_each_drug;
-            store[i].number_of_sold+=order.quantity_sold;
-            store[i].quantity=store[i].quantity-order.quantity_sold;
-                sale_rec_temp.push_back(order);
-                sale_history.push_back(order);
-               }
-
-     }
-
-       if(existance_check==0)
-       {cout<<"Medicine with this ID is doesn't exist!!!,"
-                 <<"enter again: "<<endl;
-                 goto label1;
-                    system("cls");
+             if(existance_check==0){
+                cout<<"The id you entered has no match. Enter again: "<<endl;
+                goto label1;
              }
-        c++;
-        cout << "\nDo You Want To Order Another Medicene ? (y/n)";
-        cin >> ch;
-    }while(ch=='y' || ch=='Y');
-    system("cls");
-    SetConsoleTextAttribute(font_color,3);
-  cout<<"|--------------------------------------------|"<<endl;
-  cout<<"\n|Thank you for visiting,Have A Nice Time!!!  |"<<endl<<endl;
-  cout<<"|--------------------------------------------|"<<endl;
-  SetConsoleTextAttribute(font_color,7);
-  float amount,total=0;
-  if(!sale_rec_temp.empty()){
-    cout.setf(ios_base::left);
-    cout<<setw(8)<<"Cust_id"<<setw(17)<<"Cust_name"<<setw(10)<<"Med_id"<<setw(19)<<"Med_name"<<setw(8)<<"Price"
-        <<setw(12)<<"Quntity"<<setw(16)<<"Sale date"<<setw(7)<<"Bill value"<<endl;
+             else{
+                cout << "\nDo You Want To buy Another Medicene ? (y/n)";
+                cin >> ch;
+            }
 
-    for(int i=0;i<c;i++){
-            if(z%2==0){
-         SetConsoleTextAttribute(font_color,5);
-       }
-       else{
-         SetConsoleTextAttribute(font_color,3);
-       }
-       z++;
-     amount=sale_rec_temp[i].m_price*sale_rec_temp[i].quantity_sold;
-     total+=amount;
-     cout.setf(ios_base::left);
-     cout << setw(9)<< sale_rec_temp[i].customer_id<<setw(18) << sale_rec_temp[i].customer_name<<setw(8)
-          << sale_rec_temp[i].med_id << setw(19) << sale_rec_temp[i].med_name<<setw(11)
-          << sale_rec_temp[i].m_price<<setw(8)<<sale_rec_temp[i].quantity_sold<<setw(2)<<"\t"<<left<<sale_rec_temp[i].sale_date.dd<<"/"
-          <<sale_rec_temp[i].sale_date.mm<<"/"<<sale_rec_temp[i].sale_date.yy<<"\t"<<setw(4)<<amount<<endl;
-  }
-  cout<<"\n\t\t\t\t\t\t\t\t Total bill = "<<total<<endl;
-  cout<<"\n\n";
-  }
-  else{
-    cout<<"NO sale is recorded"<<endl;
-  }
-}
+        }while(ch=='y' || ch=='Y');
+        system("cls");
+        SetConsoleTextAttribute(font_color,3);
+      cout<<"|--------------------------------------------|"<<endl;
+      cout<<"\n|Thank you for visiting,Have A Nice Time!!!  |"<<endl<<endl;
+      cout<<"|--------------------------------------------|"<<endl;
+      SetConsoleTextAttribute(font_color,7);
+      float amount,total=0;
+      if(!sale_rec_temp.empty()){
+        cout.setf(ios_base::left);
+        cout<<setw(8)<<"Cust_id"<<setw(17)<<"Cust_name"<<setw(10)<<"Med_id"<<setw(19)<<"Med_name"<<setw(8)<<"Price"
+            <<setw(12)<<"Quntity"<<setw(16)<<"Sale date"<<setw(7)<<"Bill value"<<endl;
 
-
-void Total_sales_table(vector<medicine_types> &store){
-        int z=0,m;
-    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-    int check=0;
-    float Total_Daily_sale=0;
-    if(!sale_history.empty()){
-    cout<<"The daily total sales summary is as shown below"<<endl<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
-        <<"selling_Price"<<setw(14)<<"Total_sales"<<setw(5)<<endl;
-
-for(int k=0;k<sale_history.size();k++){
-       if(z%2==0){
-         SetConsoleTextAttribute(font_color,5);
-       }
-       else{
-         SetConsoleTextAttribute(font_color,3);
-       }
-       z++;
-            cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
-                         <<sale_history[k].med_name<<setw(13)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].m_price<<setw(12)
-                         <<setw(15)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)<<setw(10)<<endl;
-            Total_Daily_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
-     }
-
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"The daily total sale in Birr = "<<Total_Daily_sale<<endl;
-    }
-
-    else {SetConsoleTextAttribute(font_color,1);
-
-      cout<<"        ------------------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-      cout<<"------------- There is no sale record -------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-    }
-
-  SetConsoleTextAttribute(font_color,7);
-  }
-  
-  void Profit_Analysis(vector<medicine_types> &store){
-        int z=0,m;
-    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
-    int check=0;
-    float Total_sale=0,Total_cost=0,Total_profit,Disposed_MED_cost=0;
-    if(!sale_history.empty()){
-    cout<<"The daily total sales summary is as shown below"<<endl<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
-            <<"Cost_of_each_med"<<setw(17)<<"selling_Price"<<setw(14)<<"Total_sales"<<setw(13)<<"Tot. cost"<<setw(8)<<"Profit"<<endl;
-
-     for(int k=0;k<sale_history.size();k++){
-       if(z%2==0){ //condition set font color
-         SetConsoleTextAttribute(font_color,5);
-       }
-       else{
-         SetConsoleTextAttribute(font_color,3);
-       }
-       z++;
-            cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
-                         <<sale_history[k].med_name<<setw(15)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].cost
-                         <<setw(14)<<sale_history[k].m_price<<setw(1)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)
-                         <<setw(10)<<(sale_history[k].cost)*(sale_history[k].quantity_sold)<<setw(8)
-                         <<((sale_history[k].m_price)*(sale_history[k].quantity_sold) - (sale_history[k].cost)*(sale_history[k].quantity_sold))<<endl;
-            Total_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
-            Total_cost+=(sale_history[k].cost)*(sale_history[k].quantity_sold);
-     }
-      Total_profit=Total_sale-Total_cost;
-
-            cout<<"---------------------------------------------------"<<endl;
-            cout<<"---------------------------------------------------"<<endl;
-            cout<<"The daily total sale in Birr = "<<Total_sale<<endl;
-            cout<<"The daily total sale in Birr = "<<Total_cost<<endl;
-            cout<<setw(50)<<"Total profit: "<<Total_profit<<" Br."<<endl<<endl;
-
-
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl<<endl;
-    system("pause");
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"The disposed  medicines list"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-    SetConsoleTextAttribute(font_color,14);
-      cout<<setw(10)<<"ID"<<setw(12)<<"Name "<<setw(14)<<"quantity"<<setw(15)  <<"Bought_price"
-        <<setw(10)<<"Cost"<<endl;
-    for(int j=0;j<Disposed_med.size();j++){
-      if(z%2==0){
-         SetConsoleTextAttribute(font_color,5);
-       }
-       else{
-         SetConsoleTextAttribute(font_color,3);
-       }
-       z++;
-         cout<<setw(7)<<Disposed_med[j].ID<<setw(20)<<Disposed_med[j].name<<setw(12)
-             <<Disposed_med[j].quantity<<setw(10)<<setw(12)<<Disposed_med[j].cost_of_each_drug
-           <<setw(17)<<((Disposed_med[j].quantity)*(Disposed_med[j].cost_of_each_drug))<<endl;
-        Disposed_MED_cost+=((Disposed_med[j].quantity)*(Disposed_med[j].cost_of_each_drug));
+        for(int i=0;i<sale_rec_temp.size();i++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+         amount=sale_rec_temp[i].m_price*sale_rec_temp[i].quantity_sold;
+         total+=amount;
+         cout.setf(ios_base::left);
+         cout << setw(9)<< sale_rec_temp[i].customer_id<<setw(18) << sale_rec_temp[i].customer_name<<setw(8)
+              << sale_rec_temp[i].med_id << setw(19) << sale_rec_temp[i].med_name<<setw(11)
+              << sale_rec_temp[i].m_price<<setw(8)<<sale_rec_temp[i].quantity_sold<<setw(2)<<"\t"<<left<<sale_rec_temp[i].sale_date.dd<<"/"
+              <<sale_rec_temp[i].sale_date.mm<<"/"<<sale_rec_temp[i].sale_date.yy<<"\t"<<setw(4)<<amount<<endl;
       }
-      SetConsoleTextAttribute(font_color,3);
-      cout<<setw(50)<<"Total lose of the disposed medicines: "<<Disposed_MED_cost<<" Br."<<endl;
-      cout<<"---------------------------------------------------"<<endl;
-    cout<<"---------------------------------------------------"<<endl;
-        cout<<"|||||||||||||||||||||||||||||||||||||||||||||||||||||||"<<endl;
-    cout<<"| Net Profit: "<<Total_profit-Disposed_MED_cost<<" Br.||||||||||||||||||||||||||||||||||||"<<endl;
-    cout<<"|||||||||||||||||||||||||||||||||||||||||||||||||||||||"<<endl;
-    system("pause");
-        SetConsoleTextAttribute(font_color,7);
-    }
-
-    else {SetConsoleTextAttribute(font_color,1);
-    cout<<"        ------------------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-      cout<<"------------- There is no sale record -------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-      cout<<"        ------------------------"<<endl;
-    }
-
-  SetConsoleTextAttribute(font_color,7);
-  }
-
-    void Modify_Entry(vector<medicine_types> &store){
-        int index,ID;
-      medicine_types modify;
-      cout<<"Enter the ID of the medicine to modify: "; cin>>ID;
-
-      for(int i=0;i<store.size();++i){
-          if(store[i].ID == ID){
-              index=i; break;
+          cout<<"\n\t\t\t\t\t\t\t\t Total bill = "<<total<<endl;
+          cout<<"\n\n";
+          ofstream outfile("sale_file.txt",ios::app);
+          if(outfile.is_open()){
+            for(int i=0;i<sale_rec_temp.size();i++){
+                   outfile<<sale_rec_temp[i].customer_id<<" "<<sale_rec_temp[i].customer_name<<" "<<sale_rec_temp[i].med_id<<" "<<sale_rec_temp[i].med_name<<" "
+                          <<sale_rec_temp[i].m_price<<" "<<" "<<sale_rec_temp[i].cost<<" "<<sale_rec_temp[i].quantity_sold<<" "
+                          <<sale_rec_temp[i].sale_date.dd<<" "<<sale_rec_temp[i].sale_date.mm<<" "<<sale_rec_temp[i].sale_date.yy<<endl;
+            }
           }
-      }
-
-      cout<<"Enter 0 for those that you don't want to change"<<endl;
-        modify.ID=store[index].ID;
-      cout<<"Change name: "; cin>>modify.name;
-      if(modify.name=="0"){
-          modify.name=store[index].name;
-      }
-      cout<<"Change quantity: "; cin>>modify.quantity;
-      if(modify.quantity==0){
-          modify.quantity=store[index].quantity;
-      }
-      cout<<"Change price: "; cin>>modify.price;
-      if(modify.price==0){
-          modify.price=store[index].price;
-      }
-      cout<<"Change cost: "; cin>>modify.cost_of_each_drug;
-      if(modify.cost_of_each_drug==0){
-          modify.cost_of_each_drug=store[index].cost_of_each_drug;
-      }
-      cout<<"Change manufactured date: "; cin>>modify.Manufacture_date.dd;
-      if(modify.Manufacture_date.dd==0){
-         modify.Manufacture_date.dd=store[index].Manufacture_date.dd;
-         modify.Manufacture_date.mm=store[index].Manufacture_date.mm;
-         modify.Manufacture_date.yy=store[index].Manufacture_date.yy;
+          outfile.close();
       }
       else{
-            cout<<"Change manufactured month: "; cin>>modify.Manufacture_date.mm;
-          cout<<"Change manufactured year: "; cin>>modify.Manufacture_date.yy;
+        cout<<"NO sale is recorded"<<endl;
       }
-      cout<<"Change expiry date: "; cin>>modify.Expiry_date.dd;
-      if(modify.Expiry_date.dd==0){
-          modify.Expiry_date.dd=store[index].Expiry_date.dd;
-          modify.Expiry_date.mm=store[index].Expiry_date.mm;
-          modify.Expiry_date.yy=store[index].Expiry_date.yy;
-      }
-      else{
-            cout<<"Change expiry month: "; cin>>modify.Expiry_date.mm;
-          cout<<"Change expiry year: "; cin>>modify.Expiry_date.yy;
-      }
-      cout<<"Change drug type: "; cin>>modify.type;
-      if(modify.type=="0"){
-          modify.type=store[index].type;
-      }
-      modify.number_of_sold=0;
-     store.at(index)=modify;
-     Write_to_File(store,"Pharmacy.txt");
     }
 
-
-void Write_to_File(vector<medicine_types> &store,char fileName[]){
-            medicine_types Medicine;
-            ofstream ofile(fileName,ios::out);
-            if(ofile.is_open()){
-                     for(int i=0;i<store.size();i++){
-                        Medicine=store[i];
-                        ofile<<Medicine.ID<<" ";
-                        ofile<<Medicine.name<<" ";
-                        ofile<<Medicine.quantity<<" ";
-                        ofile<<Medicine.price<<" ";
-                        ofile<<Medicine.cost_of_each_drug<<" ";
-                        ofile<<Medicine.number_of_sold<<" ";
-                        ofile<<Medicine.type<<" ";
-                        ofile<<Medicine.Manufacture_date.dd<<" ";
-                        ofile<<Medicine.Manufacture_date.mm<<" ";
-                        ofile<<Medicine.Manufacture_date.yy<<" ";
-                        ofile<<Medicine.Expiry_date.dd<<" ";
-                        ofile<<Medicine.Expiry_date.mm<<" ";
-                        ofile<<Medicine.Expiry_date.yy<<endl;
-                     }
+    void Read_from_sale(){ int i=0;
+    HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            sale transfer;
+            sale_history.clear();
+            ifstream infile("sale_file.txt");
+                infile.seekg(0,ios::end);
+                int fsize=infile.tellg();
+            if(fsize!=0){
+                infile.seekg(0,ios::beg);
+                if(infile.is_open()){
+                    while(infile.eof()==0){
+                        infile>>transfer.customer_id>>transfer.customer_name>>transfer.med_id>>transfer.med_name
+                              >>transfer.m_price>>transfer.cost>>transfer.quantity_sold>>transfer.sale_date.dd
+                              >>transfer.sale_date.mm>>transfer.sale_date.yy;
+                              sale_history.push_back(transfer);
+                      if(i!=0 && sale_history[i-1].med_id==transfer.med_id){
+                          sale_history.pop_back();
+                      }
+                      i++;
+                    }
+                    infile.close();
                 }
+                else{
+                    cout<<"ifstream file open failed"<<endl;
+                }
+          }
+
+    }
+
+    void Total_sales_table(vector<medicine_types> &store){ int i=0;
+            SYSTEMTIME current_time;
+            GetSystemTime (&current_time);
+            int z=0,m;
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            int check=0;
+            float Total_Daily_sale=0;
+            int sale;
+            cout<<"Press 1 to see the total sale \n Press 2 to see today's sale"<<endl;
+            cout<<"Enter here: "; cin>>sale;
+            if(sale==1){
+            int z=0,m;
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            int check=0;
+            if(!sale_history.empty()){
+            cout<<"The total sales summary is as shown below"<<endl<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
+                <<"selling_Price"<<setw(14)<<"Total_sales"<<setw(5)<<endl;
+
+             for(int k=0;k<sale_history.size();k++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+                cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
+                             <<sale_history[k].med_name<<setw(13)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].m_price
+                             <<setw(15)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)<<setw(10)<<endl;
+                Total_Daily_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
+             }
+
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"The total sale in Birr = "<<Total_Daily_sale<<endl;
+            }
+
+            else {
+                SetConsoleTextAttribute(font_color,1);
+                cout<<"				------------------------"<<endl;
+                cout<<"				------------------------"<<endl;
+                cout<<"------------- There is no sale record -------------"<<endl;
+                cout<<"				------------------------"<<endl;
+                cout<<"				------------------------"<<endl;
+            }
+            }
+            else{
+               cout<<"The total Daily sales summary is as shown below"<<endl<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
+                <<"selling_Price"<<setw(14)<<"Total_sales"<<setw(5)<<endl;
+
+             for(int k=0;k<sale_history.size();k++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+                if(sale_history[k].sale_date.dd==current_time.wDay && sale_history[k].sale_date.mm==current_time.wMonth &&
+                   sale_history[k].sale_date.yy==current_time.wYear){
+                        cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
+                            <<sale_history[k].med_name<<setw(13)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].m_price<<setw(12)
+                            <<setw(15)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)<<setw(10)<<endl;
+                    Total_Daily_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
+                   }
+             }
+
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"The daily total sale in Birr = "<<Total_Daily_sale<<endl;
+            }
+            SetConsoleTextAttribute(font_color,7);
+            }
+
+
+
+
+
+        void Profit_Analysis(vector<medicine_types> &store){
+            Read_from_sale();
+            int z=0,m;
+            HANDLE font_color=GetStdHandle(STD_OUTPUT_HANDLE);
+            int check=0;
+            float Total_sale=0,Total_cost=0,Total_profit,Disposed_MED_cost=0;
+            if(!sale_history.empty()){
+            cout<<"The daily total sales summary is as shown below"<<endl<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<setw(9)<<"Cust_id"<<setw(13)<<"Cust name"<<setw(10)<<"Med. ID"<<setw(15)<<"Med Name"<<setw(14)<<"Quant_sold"<<setw(17)
+                <<"Cost_of_each_med"<<setw(17)<<"selling_Price"<<setw(14)<<"Total_sales"<<setw(13)<<"Tot. cost"<<setw(8)<<"Profit"<<endl;
+
+             for(int k=0;k<sale_history.size();k++){
+                if(z%2==0){ //condition set font color
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                z++;
+                setprecision(3);
+                cout<<setw(9)<<sale_history[k].customer_id<<setw(13)<<sale_history[k].customer_name<<setw(8)<<sale_history[k].med_id<<setw(18)
+                             <<sale_history[k].med_name<<setw(15)<<sale_history[k].quantity_sold<<setw(18)<<sale_history[k].cost
+                             <<setw(14)<<sale_history[k].m_price<<setw(16)<<(sale_history[k].m_price)*(sale_history[k].quantity_sold)
+                             <<setw(12)<<(sale_history[k].cost)*(sale_history[k].quantity_sold)<<setw(8)
+                             <<((sale_history[k].m_price)*(sale_history[k].quantity_sold) - (sale_history[k].cost)*(sale_history[k].quantity_sold))<<endl;
+                Total_sale+=((sale_history[k].m_price)*(sale_history[k].quantity_sold));
+                Total_cost+=(sale_history[k].cost)*(sale_history[k].quantity_sold);
+             }
+              Total_profit=Total_sale-Total_cost;
+
+                cout<<"---------------------------------------------------"<<endl;
+                cout<<"---------------------------------------------------"<<endl;
+                cout<<"The daily total sale in Birr = "<<Total_sale<<endl;
+                cout<<"The  total cost in Birr = "<<Total_cost<<endl;
+                cout<<setw(10)<<"\t\tTotal profit: "<<Total_profit<<" Br."<<endl<<endl;
+
+
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl<<endl;
+            system("pause");
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"The disposed  medicines list"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            SetConsoleTextAttribute(font_color,14);
+                cout<<setw(10)<<"ID"<<setw(12)<<"Name "<<setw(14)<<"quantity"<<setw(15)  <<"Bought_price"
+                  <<setw(10)<<"Cost"<<endl;
+            for(int j=0;j<Disposed_med.size();j++){
+                if(z%2==0){
+                    SetConsoleTextAttribute(font_color,5);
+                 }
+                 else{
+                    SetConsoleTextAttribute(font_color,3);
+                 }
+                 z++;
+                   cout<<setw(7)<<Disposed_med[j].ID<<setw(20)<<Disposed_med[j].name<<setw(12)
+                       <<Disposed_med[j].quantity<<setw(10)<<setw(12)<<Disposed_med[j].cost_of_each_drug
+                       <<setw(17)<<((Disposed_med[j].quantity)*(Disposed_med[j].cost_of_each_drug))<<endl;
+                    Disposed_MED_cost+=((Disposed_med[j].quantity)*(Disposed_med[j].cost_of_each_drug));
+            }
+            SetConsoleTextAttribute(font_color,3);
+            cout<<setw(50)<<"Total lose of the disposed medicines: "<<Disposed_MED_cost<<" Br."<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"---------------------------------------------------"<<endl;
+            cout<<"|||||||||||||||||||||||||||||||||||||||||||||||||||||||"<<endl;
+            cout<<"| Net Profit: "<<Total_profit-Disposed_MED_cost<<" Br.||||||||||||||||||||||||||||||||||||"<<endl;
+            cout<<"|||||||||||||||||||||||||||||||||||||||||||||||||||||||"<<endl;
+            system("pause");
+            SetConsoleTextAttribute(font_color,7);
+            }
+
+            else {SetConsoleTextAttribute(font_color,1);
+
+                cout<<"				------------------------"<<endl;
+                cout<<"				------------------------"<<endl;
+                cout<<"------------- There is no sale record -------------"<<endl;
+                cout<<"				------------------------"<<endl;
+                cout<<"				------------------------"<<endl;
+            }
+
+        SetConsoleTextAttribute(font_color,7);
+        }
+
+        void Modify_Entry(vector<medicine_types> &store){
+            int index,ID;
+            medicine_types modify;
+            cout<<"Enter the ID of the medicine to modify: "; cin>>ID;
+
+            for(int i=0;i<store.size();++i){
+                if(store[i].ID == ID){
+                    index=i; break;
+                }
+            }
+
+            cout<<"Enter 0 for those that you don't want to change"<<endl;
+            modify.ID=store[index].ID;
+            cout<<"Change name: "; cin>>modify.name;
+            if(modify.name=="0"){
+                modify.name=store[index].name;
+            }
+            cout<<"Change quantity: "; cin>>modify.quantity;
+            if(modify.quantity==0){
+                modify.quantity=store[index].quantity;
+            }
+            cout<<"Change price: "; cin>>modify.price;
+            if(modify.price==0){
+                modify.price=store[index].price;
+            }
+            cout<<"Change cost: "; cin>>modify.cost_of_each_drug;
+            if(modify.cost_of_each_drug==0){
+                modify.cost_of_each_drug=store[index].cost_of_each_drug;
+            }
+            cout<<"Change manufactured date: "; cin>>modify.Manufacture_date.dd;
+            if(modify.Manufacture_date.dd==0){
+               modify.Manufacture_date.dd=store[index].Manufacture_date.dd;
+               modify.Manufacture_date.mm=store[index].Manufacture_date.mm;
+               modify.Manufacture_date.yy=store[index].Manufacture_date.yy;
+            }
+            else{
+                cout<<"Change manufactured month: "; cin>>modify.Manufacture_date.mm;
+                cout<<"Change manufactured year: "; cin>>modify.Manufacture_date.yy;
+            }
+            cout<<"Change expiry date: "; cin>>modify.Expiry_date.dd;
+            if(modify.Expiry_date.dd==0){
+                modify.Expiry_date.dd=store[index].Expiry_date.dd;
+                modify.Expiry_date.mm=store[index].Expiry_date.mm;
+                modify.Expiry_date.yy=store[index].Expiry_date.yy;
+            }
+            else{
+                cout<<"Change expiry month: "; cin>>modify.Expiry_date.mm;
+                cout<<"Change expiry year: "; cin>>modify.Expiry_date.yy;
+            }
+            cout<<"Change drug type: "; cin>>modify.type;
+            if(modify.type=="0"){
+                modify.type=store[index].type;
+            }
+            modify.number_of_sold=0;
+         store.at(index)=modify;
+         Write_to_File(store,"Pharmacy.txt");
+        }
+
+
+    void Write_to_File(vector<medicine_types> &store,char fileName[]){
+                medicine_types Medicine;
+                ofstream ofile(fileName,ios::out);
+                if(ofile.is_open()){
+                         for(int i=0;i<store.size();i++){
+                            Medicine=store[i];
+                            ofile<<Medicine.ID<<" ";
+                            ofile<<Medicine.name<<" ";
+                            ofile<<Medicine.quantity<<" ";
+                            ofile<<Medicine.price<<" ";
+                            ofile<<Medicine.cost_of_each_drug<<" ";
+                            ofile<<Medicine.number_of_sold<<" ";
+                            ofile<<Medicine.type<<" ";
+                            ofile<<Medicine.Manufacture_date.dd<<" ";
+                            ofile<<Medicine.Manufacture_date.mm<<" ";
+                            ofile<<Medicine.Manufacture_date.yy<<" ";
+                            ofile<<Medicine.Expiry_date.dd<<" ";
+                            ofile<<Medicine.Expiry_date.mm<<" ";
+                            ofile<<Medicine.Expiry_date.yy<<endl;
+                         }
+                    }
+                else{
+                    cout<<"open failed"<<endl;
+                }
+                ofile.close();
+            }
+
+
+      void Read_from_file(vector<medicine_types> &store,char fileName[]){
+           medicine_types Medicine;
+           int caese=0;
+            ifstream infile(fileName,ios::in);
+                infile.seekg(0,ios::end);
+                int fsize=infile.tellg();
+         if(fsize!=0){
+                infile.seekg(0,ios::beg);
+            if(infile.is_open()){
+                store.clear();
+                while(infile.eof()==0){
+                    infile>>Medicine.ID;
+                    infile>>Medicine.name;
+                    infile>>Medicine.quantity;
+                    infile>>Medicine.price;
+                    infile>>Medicine.cost_of_each_drug;
+                    infile>>Medicine.number_of_sold;
+                    infile>>Medicine.type;
+                    infile>>Medicine.Manufacture_date.dd;
+                    infile>>Medicine.Manufacture_date.mm;
+                    infile>>Medicine.Manufacture_date.yy;
+                    infile>>Medicine.Expiry_date.dd;
+                    infile>>Medicine.Expiry_date.mm;
+                    infile>>Medicine.Expiry_date.yy;
+                    if(Medicine.ID==0){
+                       break;
+                    }
+                    if(Medicine.ID!=store.back().ID){
+                    store.push_back(Medicine);
+                    }
+
+                }
+            infile.close();
+            }
             else{
                 cout<<"open failed"<<endl;
             }
-        }
-	
-	void Read_from_file(vector<medicine_types> &store,char fileName[]){
-       medicine_types Medicine;
-       int caese=0;
-        ifstream infile(fileName,ios::in);
-        if(infile.is_open()){
+                }
+        else{
             store.clear();
-            for(int i=0;i<9;++i){
-                infile>>Medicine.ID;
-                infile>>Medicine.name;
-                infile>>Medicine.quantity;
-                infile>>Medicine.price;
-                infile>>Medicine.cost_of_each_drug;
-                infile>>Medicine.number_of_sold;
-                infile>>Medicine.type;
-                infile>>Medicine.Manufacture_date.dd;
-                infile>>Medicine.Manufacture_date.mm;
-                infile>>Medicine.Manufacture_date.yy;
-                infile>>Medicine.Expiry_date.dd;
-                infile>>Medicine.Expiry_date.mm;
-                infile>>Medicine.Expiry_date.yy;
-                if(Medicine.ID==0){
-                   break;
-                }
-                if(Medicine.ID!=store.back().ID){
-                store.push_back(Medicine);
-                }
-
-            }
-
+            cout<<"The file is empity,coping failed"<<endl;
         }
-    infile.close();
 
-  }
+      }
+
+
+
+
+
+
+
+
